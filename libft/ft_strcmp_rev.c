@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/06 12:18:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/01 13:42:50 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/10 13:27:09 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		ft_strcmp_rev(void *str1, void *str2)
 {
-	int		i;
+	int			i;
 	char		*s1;
 	char		*s2;
 

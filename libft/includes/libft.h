@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/03 15:52:04 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/01 13:43:54 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/10 13:23:30 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ char				*ft_strstr(const char *s1, const char *s2);
 char				*ft_strnstr(const char *s1, const char *s2, size_t n);
 int					ft_strcmp(void *s1, void *s2);
 int					ft_strcmp_rev(void *s1, void *s2);
+long				ft_numcmp(void *num1, void *num2);
+long				ft_numcmp_rev(void *num1, void *num2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 int					ft_atoi(const char *str);
 int					ft_isalpha(int c);

@@ -6,13 +6,13 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 15:01:09 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/02 18:50:55 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/10 13:15:56 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int	sort(t_list *list, t_list *new, t_list *tmp, int (*f)(void *a, void *b))
+int		sort(t_list *list, t_list *new, t_list *tmp, int (*f)(void *a, void *b))
 {
 	while (list)
 	{
@@ -39,7 +39,7 @@ int	sort(t_list *list, t_list *new, t_list *tmp, int (*f)(void *a, void *b))
 	return (0);
 }
 
-int	add(t_list **list, char *val, int (*f)(void *a, void *b))
+int		add(t_list **list, char *val, int (*f)(void *a, void *b))
 {
 	t_list				*new;
 	t_list				*head;
@@ -49,7 +49,7 @@ int	add(t_list **list, char *val, int (*f)(void *a, void *b))
 	if ((new = ft_listnew(val)) == 0)
 		return (0);
 	if (*list == 0)
-	{	
+	{
 		*list = new;
 		return (1);
 	}
@@ -70,7 +70,7 @@ void	print(t_list *list)
 	ft_putstr("\n");
 }
 
-int	list_content_dir(char *path)
+int		list_content_dir(char *path)
 {
 	DIR					*dirp;
 	struct dirent		*next_entry;
@@ -85,8 +85,8 @@ int	list_content_dir(char *path)
 	errno = 0;
 	while ((next_entry = readdir(dirp)) != 0)
 	{
-	       	if ((next_entry->d_name)[0] == '.')
-       		continue;
+		if ((next_entry->d_name)[0] == '.')
+			continue;
 		add(&list, next_entry->d_name, &ft_strcmp);
 	}
 	ft_lstiter(list, &print);
