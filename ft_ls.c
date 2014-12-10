@@ -12,15 +12,13 @@
 
 #include "ft_ls.h"
 
-int			sort(t_list *list, t_list *new, int (*f)(const char *s1, const char *s2))
+int	sort(t_list *list, t_list *new, t_list *tmp, int (*f)(void *a, void *b))
 {
-	t_list			*tmp;
-
 	while (list)
 	{
 		if (f(list->content, new->content) >= 0)
 		{
-			if (tmp->next == 0)
+			if (tmp == 0)
 			{
 				new->next = list;
 				return (1);
@@ -41,11 +39,13 @@ int			sort(t_list *list, t_list *new, int (*f)(const char *s1, const char *s2))
 	return (0);
 }
 
-int			add(t_list **list, char *val, int (*f)(const char *s1, const char *s2))
+int	add(t_list **list, char *val, int (*f)(void *a, void *b))
 {
 	t_list				*new;
 	t_list				*head;
+	t_list				*tmp;
 
+	tmp = 0;
 	if ((new = ft_listnew(val)) == 0)
 		return (0);
 	if (*list == 0)
@@ -56,14 +56,10 @@ int			add(t_list **list, char *val, int (*f)(const char *s1, const char *s2))
 	else
 	{
 		head = *list;
-		if (sort(*list, new, f) == 1)
-		{
+		if (sort(*list, new, tmp, f) == 1)
 			*list = new;
-		}
 		else
-		{
 			*list = head;
-		}
 	}
 	return (1);
 }
@@ -74,7 +70,7 @@ void	print(t_list *list)
 	ft_putstr("\n");
 }
 
-int				list_content_dir(char *path)
+int	list_content_dir(char *path)
 {
 	DIR					*dirp;
 	struct dirent		*next_entry;
@@ -89,8 +85,8 @@ int				list_content_dir(char *path)
 	errno = 0;
 	while ((next_entry = readdir(dirp)) != 0)
 	{
-		if ((next_entry->d_name)[0] == '.')
-			continue;
+	       	if ((next_entry->d_name)[0] == '.')
+       		continue;
 		add(&list, next_entry->d_name, &ft_strcmp);
 	}
 	ft_lstiter(list, &print);

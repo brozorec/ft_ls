@@ -19,7 +19,7 @@
 # include <dirent.h>
 # include <sys/types.h>
 # include <pwd.h>
-# include <uuid/uuid.h>
+//# include <uuid/uuid.h>
 # include <sys/stat.h>
 # include <sys/xattr.h>
 # include <time.h>

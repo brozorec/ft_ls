@@ -12,10 +12,14 @@
 
 #include "libft.h"
 
-int		ft_strcmp(const char *s1, const char *s2)
+int		ft_strcmp(void *str1, void *str2)
 {
 	int		i;
+	char		*s1;
+	char		*s2;
 
+	s1 = str1;
+	s2 = str2;
 	i = 0;
 	while (s1[i] != '\0' || s2[i] != '\0')
 	{
