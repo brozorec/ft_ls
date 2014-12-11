@@ -6,17 +6,18 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 15:01:09 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/10 13:15:56 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/11 20:01:06 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int		sort(t_list *list, t_list *new, t_list *tmp, int (*f)(void *a, void *b))
+int
+	sort(t_cont *list, t_cont *new, t_cont *tmp, long (*f)(void *a, void *b))
 {
 	while (list)
 	{
-		if (f(list->content, new->content) >= 0)
+		if (f(list->val, new->val) >= 0)
 		{
 			if (tmp == 0)
 			{
@@ -39,32 +40,30 @@ int		sort(t_list *list, t_list *new, t_list *tmp, int (*f)(void *a, void *b))
 	return (0);
 }
 
-int		add(t_list **list, char *val, int (*f)(void *a, void *b))
+int
+	add(t_cont **lst, t_cont *new, long (*f)(void *a, void *b))
 {
-	t_list				*new;
-	t_list				*head;
-	t_list				*tmp;
+	t_cont				*head;
+	t_cont				*tmp;
 
 	tmp = 0;
-	if ((new = ft_listnew(val)) == 0)
-		return (0);
-	if (*list == 0)
+	if (*lst == 0)
 	{
-		*list = new;
+		*lst = new;
 		return (1);
 	}
 	else
 	{
-		head = *list;
-		if (sort(*list, new, tmp, f) == 1)
-			*list = new;
+		head = *lst;
+		if (sort(*lst, new, tmp, f) == 1)
+			*lst = new;
 		else
-			*list = head;
+			*lst = head;
 	}
 	return (1);
 }
 
-void	print(t_list *list)
+/*void	print(t_list *list)
 {
 	ft_putstr(list->content);
 	ft_putstr("\n");
@@ -93,4 +92,4 @@ int		list_content_dir(char *path)
 	if (errno != 0)
 		perror("readdir");
 	return (0);
-}
+	}*/

@@ -6,13 +6,13 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/06 12:18:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/10 13:19:55 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/11 19:58:10 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strcmp(void *str1, void *str2)
+long		ft_strcmp(void *str1, void *str2)
 {
 	int			i;
 	char		*s1;

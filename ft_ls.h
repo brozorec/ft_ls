@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 15:02:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/10 19:31:45 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/11 20:32:45 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,26 @@ typedef struct				s_option
 # include <errno.h>
 # include "./libft/includes/libft.h"
 
+typedef struct				s_content
+{
+	char					*name;
+	char					*path;
+	void					*val;
+	unsigned long			mode;
+	long					nlink;
+	long					uid;
+	long					gid;
+	long					rdev;
+	long long				size;
+	long long				mtime;
+	struct s_content		*next;
+}							t_cont;
+
+//extern t_option				option;
+
 int							list_content_dir(char *s);
 void						handle_err(char *s);
+int							treat_options(t_option *option, char **av);
+int							add(t_cont **lst, t_cont *new, long (*f)(void *a, void *b));
 
 #endif
