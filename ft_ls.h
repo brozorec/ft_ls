@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 15:02:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/11 20:32:45 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/12 20:30:55 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct				s_option
 # include <dirent.h>
 # include <sys/types.h>
 # include <pwd.h>
-//# include <uuid/uuid.h>
+# include <uuid/uuid.h>
 # include <sys/stat.h>
 # include <sys/xattr.h>
 # include <time.h>
@@ -52,8 +52,16 @@ typedef struct				s_content
 	struct s_content		*next;
 }							t_cont;
 
+typedef struct				s_cont_params
+{
+	t_cont					*err;
+	t_cont					*file;
+	t_cont					*dir;
+}							t_cont_params;
+
 //extern t_option				option;
 
+void						print(t_cont_params lst, t_option option);
 int							list_content_dir(char *s);
 void						handle_err(char *s);
 int							treat_options(t_option *option, char **av);
