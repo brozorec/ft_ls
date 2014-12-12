@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-long		ft_numcmp(void *num1, void *num2)
+long		ft_numcmp_rev(void *num1, void *num2)
 {
 	long		*n1;
 	long		*n2;

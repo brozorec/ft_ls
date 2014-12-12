@@ -37,7 +37,7 @@ t_cont		*create_new_container(char *name, t_cont *new, struct stat *buf, t_optio
 	else
 	{	
 		new->val = (time_t *)malloc(sizeof(new->mtime));
-		new->val = new->mtime;
+		//		new->val = new->mtime;
 	}
 	return (new);
 }
@@ -101,7 +101,7 @@ int					main(int ac, char **av)
 
 	if (ac == 1)
 	{
-		list_content_dir(".");
+	  //		list_content_dir(".");
 		return (0);
 	}
 	i = treat_options(&option, av);
