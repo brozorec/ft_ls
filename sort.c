@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 15:01:09 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/12 21:55:27 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/13 14:47:10 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,8 @@ int
 	t_cont				*tmp;
 
 	tmp = 0;
-	printf("%s\n", (char *)new->val);
 	if (*lst == 0)
 	{
-		printf("%s\n", "toi");
 		*lst = new;
 		return (1);
 	}

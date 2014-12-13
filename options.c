@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 17:02:53 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/11 10:54:38 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/13 17:45:48 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_option			set_options(t_option option, char *s)
 t_option			init_option(t_option option)
 {
 	option.empty = 0;
+	option.emp_tr = 0;
 	option.l = 0;
 	option.r = 0;
 	option.recursive = 0;
@@ -92,6 +93,8 @@ int					treat_options(t_option *option, char **av)
 	if (option->l == 0 && option->r == 0 && option->recursive == 0 &&
 		option->a == 0 && option->t == 0)
 		option->empty = 1;
+	if (option->t == 0 && option->r == 0)
+		option->emp_tr = 1;
 	return (i);
 }
 
