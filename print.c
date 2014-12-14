@@ -6,52 +6,67 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/12 15:48:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/13 17:31:37 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/14 18:10:35 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void		print_dir_content(t_cont *list)
+void		print_dir_content(char *path, t_cont *list, t_param lst, t_option option)
 {
+	if (lst.dir_num > 1)
+		ft_putstr(ft_strjoin(path, ":\n"));
 	while (list)
 	{
+		if (list->name[0] == '.' && option.a == 0)
+		{
+			list = list->next;
+			continue;
+		}
 		ft_putstr(list->name);
 		ft_putstr("\n");
 		list = list->next;
 	}
+	ft_putstr("\n");
 }
 
-void		print(t_cont_params lst, t_option option)
+void		print_err_file(t_param list, t_option option)
 {
 	int			i;
-	t_cont		*params_err;
-	t_cont		*params_file;
-	t_cont		*params_dir;
+	int			j;
 
-	params_err = lst.err;
-	params_file = lst.file;
-	params_dir = lst.dir;
 	i = 0;
-	while (params_err)
+	j = 0;
+	while (list.err)
 	{
-		ft_putstr(params_err->name);
+		j++;
+		ft_putstr(list.err->name);
 		ft_putstr("\n");
-		params_err = params_err->next;
+		list.err = list.err->next;
 	}
-	while (params_file)
+	while (list.file)
 	{
 		i++;
-		ft_putstr(params_file->name);
+		if (option.l == 1)
+			get_attr(list.file);
+		ft_putstr(list.file->name);
 		ft_putstr("\n");
-		params_file = params_file->next;
+		list.file = list.file->next;
 	}
-	if (i != 0 && params_dir)
+	if (i != 0 && list.dir)
 		ft_putstr("\n");
-	while (params_dir)
+	if (list.dir_num == 1 && (i != 0 || j != 0))
+		ft_putstr(ft_strjoin(list.dir->name, ":\n"));
+}
+
+void		print(t_param lst, t_option option)
+{
+	option.empty = 0;
+	print_err_file(lst, option);
+	while (lst.dir)
 	{
-		ft_putstr(ft_strjoin(params_dir->name, ":\n"));
-		content_dir(params_dir->name, option);
-		params_dir = params_dir->next;
+//		ft_putstr(ft_strjoin(params_dir->name, ":\n"));
+		content_dir(lst.dir->name, lst, option);
+		lst.dir = lst.dir->next;
 	}
 }

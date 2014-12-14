@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 17:02:53 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/13 17:46:19 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/14 16:13:27 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,15 @@ detect_type(char *name, char *path, t_cont **new, t_option option)
 	i = stat(path, &buf);
 	if (i == -1)
 	{
-		*new = create_new(path, *new, 0, option);
+		*new = create_new(name, *new, 0, option);
 		return (-1);
 	}
-	*new = create_new(path, *new, &buf, option);
-	if (ft_strcmp(name, path) != 0)
-		(*new)->path = ft_strdup(path);
+	*new = create_new(name, *new, &buf, option);
+	(*new)->path = ft_strdup(path);
 	if (S_ISDIR(buf.st_mode))
 		return (2);
 	else
-		return (2);
+		return (1);
 /*
  *	other types
  */
@@ -86,7 +85,7 @@ int
 }
 
 void
-	collect_params(char *name, t_option option, t_cont_params *lst)
+	collect_params(char *name, t_option option, t_param *lst)
 {
 	t_cont				*new;
 	int					i;
@@ -98,7 +97,10 @@ void
 	else if (i == 1)
 		fill_list(&(lst->file), new, option);
 	else if (i == 2)
+	{
 		fill_list(&(lst->dir), new, option);
+		lst->dir_num++;
+	}
 }
 
 /*t_cont_params
