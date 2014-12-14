@@ -13,19 +13,21 @@
 #include "ft_ls.h"
 
 t_param
-	*cont_params_init(t_param *new)
+	cont_params_init(void)
 {
-	if (new->dir)
-		new->dir = 0;
-	if ((new = (t_param *)malloc(sizeof(new))) == 0)
-		return (0);
-	if ((new->err = (t_cont *)malloc(sizeof(new->err))) == 0)
-		return (0);
-	if ((new->file = (t_cont *)malloc(sizeof(new->file))) == 0)
-		return (0);
-	if ((new->dir = (t_cont *)malloc(sizeof(new->dir))) == 0)
-		return (0);
-	new->dir_num = 0;
+  t_param	new;
+
+	if (new.dir)
+		new.dir = 0;
+	//	if ((new = (t_param)malloc(sizeof(new))) == 0)
+	//	return (new);
+	if ((new.err = (t_cont *)malloc(sizeof(new.err))) == 0)
+		return (new);
+	if ((new.file = (t_cont *)malloc(sizeof(new.file))) == 0)
+		return (new);
+	if ((new.dir = (t_cont *)malloc(sizeof(new.dir))) == 0)
+		return (new);
+	new.dir_num = 0;
 	return (new);
 }
 
@@ -37,7 +39,7 @@ int
 	t_option		option;
 
 	i = treat_options(&option, av);
-	cont_params_init(&lst);
+	lst = cont_params_init();
 	if (ac == 1 || (ac == 2 && i == 2))
 	{
 		content_dir(".", lst, option);

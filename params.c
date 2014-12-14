@@ -41,7 +41,7 @@ t_cont
 	else
 	{
 		new->val = (time_t *)malloc(sizeof(time_t *));
-		new->val = (void *)new->mtime;
+		//		new->val = (void *)new->mtime;
 	}
 	return (new);
 }
@@ -98,6 +98,7 @@ void
 		fill_list(&(lst->file), new, option);
 	else if (i == 2)
 	{
+		printf("%s\n", new->name);
 		fill_list(&(lst->dir), new, option);
 		lst->dir_num++;
 	}

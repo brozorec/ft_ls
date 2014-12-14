@@ -27,7 +27,10 @@ void		print_dir_content(char *path, t_cont *list, t_param lst, t_option option)
 		ft_putstr("\n");
 		list = list->next;
 	}
-	ft_putstr("\n");
+	lst.dir_num--;
+	ft_putnbr(lst.dir_num);
+	if (lst.dir_num > 0)
+	  ft_putstr("\n");
 }
 
 void		print_err_file(t_param list, t_option option)
@@ -61,11 +64,9 @@ void		print_err_file(t_param list, t_option option)
 
 void		print(t_param lst, t_option option)
 {
-	option.empty = 0;
-	print_err_file(lst, option);
+  //	print_err_file(lst, option);
 	while (lst.dir)
 	{
-//		ft_putstr(ft_strjoin(params_dir->name, ":\n"));
 		content_dir(lst.dir->name, lst, option);
 		lst.dir = lst.dir->next;
 	}
