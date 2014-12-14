@@ -12,12 +12,12 @@
 
 #include "ft_ls.h"
 
-void	collect_content_dir(char *path, t_cont **lst, t_option option)
+void	collect_content_dir(char *name, char *path, t_cont **lst, t_option option)
 {
 	t_cont				*new;
 
 	new = 0;
-	detect_type(path, &new, option);
+	detect_type(name, path, &new, option);
 	fill_list(lst, new, option);
 }
 
@@ -27,9 +27,7 @@ int		dir_tree(char *path, t_cont *list, t_option option)
 	{
 		if (S_ISDIR(list->mode))
 		{
-			path = ft_strjoin(path, "/");
-			path = ft_strjoin(path, list->name);
-			content_dir(path, option);
+		  content_dir(path, option);
 		}
 		list = list->next;
 	}
@@ -57,7 +55,9 @@ int		content_dir(char *path, t_option option)
 	{
 		if ((next_entry->d_name)[0] == '.' && option.a == 0)
 			continue;
-		collect_content_dir(next_entry->d_name, &list, option);
+		path = ft_strjoin(path, "/");
+		path = ft_strjoin(path, next_entry->d_name);
+		collect_content_dir(next_entry->d_name, path, &list, option);
 	}
 	print_dir_content(list);
 	closedir(dirp);

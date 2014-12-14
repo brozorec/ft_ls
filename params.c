@@ -47,21 +47,23 @@ t_cont
 }
 
 int
-	detect_type(char *name, t_cont **new, t_option option)
+detect_type(char *name, char *path, t_cont **new, t_option option)
 {
 	struct stat			buf;
 	int					i;
 
-	i = stat(name, &buf);
+	i = stat(path, &buf);
 	if (i == -1)
 	{
-		*new = create_new(name, *new, 0, option);
+		*new = create_new(path, *new, 0, option);
 		return (-1);
 	}
-	*new = create_new(name, *new, &buf, option);
-	if (S_ISREG(buf.st_mode))
-		return (1);
-	else if (S_ISDIR(buf.st_mode))
+	*new = create_new(path, *new, &buf, option);
+	if (ft_strcmp(name, path) != 0)
+		(*new)->path = ft_strdup(path);
+	if (S_ISDIR(buf.st_mode))
+		return (2);
+	else
 		return (2);
 /*
  *	other types
@@ -84,13 +86,13 @@ int
 }
 
 void
-	collect_params(char *path, t_option option, t_cont_params *lst)
+	collect_params(char *name, t_option option, t_cont_params *lst)
 {
 	t_cont				*new;
 	int					i;
 
 	new = 0;
-	i = detect_type(path, &new, option);
+	i = detect_type(name, name, &new, option);
 	if (i == -1)
 		add(&(lst->err), new, &ft_strcmp);
 	else if (i == 1)
