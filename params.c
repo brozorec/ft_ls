@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 17:02:53 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/14 16:13:27 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/15 20:02:58 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ t_cont
 	else
 	{
 		new->val = (time_t *)malloc(sizeof(time_t *));
-		//		new->val = (void *)new->mtime;
+		new->val = (void *)new->mtime;
 	}
 	return (new);
 }
 
 int
-detect_type(char *name, char *path, t_cont **new, t_option option)
+	detect_type(char *name, char *path, t_cont **new, t_option option)
 {
 	struct stat			buf;
 	int					i;
@@ -60,6 +60,7 @@ detect_type(char *name, char *path, t_cont **new, t_option option)
 	}
 	*new = create_new(name, *new, &buf, option);
 	(*new)->path = ft_strdup(path);
+	(*new)->addr = ft_strdup(path);
 	if (S_ISDIR(buf.st_mode))
 		return (2);
 	else
@@ -98,7 +99,7 @@ void
 		fill_list(&(lst->file), new, option);
 	else if (i == 2)
 	{
-		printf("%s\n", new->name);
+		new->level = 0;
 		fill_list(&(lst->dir), new, option);
 		lst->dir_num++;
 	}
