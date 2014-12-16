@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 17:02:53 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/15 20:02:58 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/16 15:07:37 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int
 	}
 	*new = create_new(name, *new, &buf, option);
 	(*new)->path = ft_strdup(path);
-	(*new)->addr = ft_strdup(path);
 	if (S_ISDIR(buf.st_mode))
 		return (2);
 	else
@@ -99,9 +98,9 @@ void
 		fill_list(&(lst->file), new, option);
 	else if (i == 2)
 	{
-		new->level = 0;
 		fill_list(&(lst->dir), new, option);
 		lst->dir_num++;
+		lst->counter++;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/03 15:52:04 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/11 19:59:05 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/16 15:28:30 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstpush(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
+int					ft_getsize_nbr(void *nbr);
 
 #endif

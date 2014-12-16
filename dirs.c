@@ -6,27 +6,26 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/13 15:30:11 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/15 20:10:16 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/16 15:04:07 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	collect_content_dir(char *name, char *path, t_cont **list, t_option option)
+void
+	collect_content_dir(char *name, char *path, t_cont **list, t_option option)
 {
 	t_cont				*new;
-	char				*path_to_send;
 
 	new = 0;
-	path_to_send = ft_strjoin(path, "/");
-	path_to_send = ft_strjoin(path_to_send, name);
-	detect_type(name, path_to_send, &new, option);
-	free(new->addr);
-	new->addr = ft_strdup(path);
+	path = ft_strjoin(path, "/");
+	path = ft_strjoin(path, name);
+	detect_type(name, path, &new, option);
 	fill_list(list, new, option);
 }
 
-int		dir_tree(t_cont *list, t_param *lst, t_option option)
+int
+	dir_tree(t_cont *list, t_param *lst, t_option option)
 {
 	while (list)
 	{
@@ -36,13 +35,19 @@ int		dir_tree(t_cont *list, t_param *lst, t_option option)
 			continue;
 		}
 		if (S_ISDIR(list->mode))
+		{
+			free(lst->dir_name);
+			lst->dir_name = ft_strdup(list->name);
+			lst->flag = 0;
 			content_dir(list->path, lst, option);
+		}
 		list = list->next;
 	}
 	return (0);
 }
 
-t_cont		*content_dir(char *path, t_param *lst, t_option option)
+t_cont
+	*content_dir(char *path, t_param *lst, t_option option)
 {
 	DIR					*dirp;
 	struct dirent		*entry;
@@ -57,7 +62,8 @@ t_cont		*content_dir(char *path, t_param *lst, t_option option)
 	errno = 0;
 	while ((entry = readdir(dirp)) != 0)
 		collect_content_dir(entry->d_name, path, &list, option);
-//	print_dir_content(list, lst, option, );
+	if (lst->flag == 1 || option.a == 1 || (lst->dir_name[0] != '.' && option.a == 0))
+		print_dir_content(path, list, lst, option);
 	closedir(dirp);
 	if (errno != 0)
 		perror("readdir");
@@ -66,5 +72,5 @@ t_cont		*content_dir(char *path, t_param *lst, t_option option)
 		if (dir_tree(list, lst, option) == 0)
 			free(list);
 	}
-	return (list);
+	return (0);
 }
