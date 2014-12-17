@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 16:14:02 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/16 19:56:51 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/17 11:34:10 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,16 @@ void		file_size(long long size, int biggest)
 
 void		file_devices(long dev)
 {
-	
+	int			siz;
+	int			i;
+
+	siz = ft_getsize_nbr((void *)dev);
+	i = siz + 2;
+	while (i > 0)
+	{
+		ft_putchar(' ');
+		i--;
+	}
+	ft_putnbr(dev);
+	ft_putchar(' ');
 }

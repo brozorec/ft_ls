@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 15:02:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/16 18:43:14 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/17 12:21:16 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,16 @@ void						print_dir_content(char *path, t_cont *list, t_param *lst, t_option opt
 void						print(t_param *lst, t_option option);
 void						handle_err(char *s);
 int							treat_options(t_option *option, char **av);
-int							add(t_cont **lst, t_cont *new, long (*f)(void *a, void *b));
+int							add(t_cont **lst, t_cont *new, t_option opt, long (*f)(void *a, void *b));
 void						get_attr(t_cont *list, t_option option);
 void						file_type(unsigned long mode);
 void						file_perm_first(unsigned long mode);
-void						file_type_second(unsigned long mode);
+void						file_perm_second(unsigned long mode);
 void						file_links(long link, int biggest);
-void						file_user_group(long user, long group);
+void						file_user(long user, int biggest);
+void						file_group(long group, int biggest);
 void						file_size(long long size, int biggest);
+void						file_devices(long rdev);
 int							get_biggest_link(t_cont *copy);
 int							get_biggest_size(t_cont *copy);
 int							get_biggest_gid(t_cont *copy);

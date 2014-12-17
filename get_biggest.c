@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/14 17:27:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/16 18:27:21 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/17 11:31:12 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int			get_biggest_gid(t_cont *copy)
 
 int			get_biggest_uid(t_cont *copy)
 {
-	struct paaswd	*new;
+	struct passwd	*new;
 	int				i;
 	int				siz;
 

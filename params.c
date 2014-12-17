@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 17:02:53 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/16 15:07:37 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/17 12:22:36 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,13 @@ int
 	fill_list(t_cont **lst, t_cont *new, t_option option)
 {
 	if (option.emp_tr == 1)
-		add(lst, new, &ft_strcmp);
+		add(lst, new, option, &ft_strcmp);
 	else if (option.t == 1 && option.r == 1)
-		add(lst, new, &ft_numcmp);
+		add(lst, new, option, &ft_numcmp);
 	else if (option.t == 1 && option.r == 0)
-		add(lst, new, &ft_numcmp_rev);
+		add(lst, new, option, &ft_numcmp_rev);
 	else if (option.t == 0 && option.r == 1)
-		add(lst, new, &ft_strcmp_rev);
+		add(lst, new, option, &ft_strcmp_rev);
 	return (0);
 }
 
@@ -93,7 +93,7 @@ void
 	new = 0;
 	i = detect_type(name, name, &new, option);
 	if (i == -1)
-		add(&(lst->err), new, &ft_strcmp);
+		add(&(lst->err), new, option, &ft_strcmp);
 	else if (i == 1)
 		fill_list(&(lst->file), new, option);
 	else if (i == 2)
