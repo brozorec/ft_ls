@@ -104,34 +104,3 @@ int
 	}
 	return (1);
 }
-
-/*void	print(t_list *list)
-{
-	ft_putstr(list->content);
-	ft_putstr("\n");
-}
-
-int		list_content_dir(char *path)
-{
-	DIR					*dirp;
-	struct dirent		*next_entry;
-	t_list				*list;
-
-	list = 0;
-	if ((dirp = opendir(path)) == 0)
-	{
-		perror(ft_strjoin("ls: ", path));
-		exit(0);
-	}
-	errno = 0;
-	while ((next_entry = readdir(dirp)) != 0)
-	{
-		if ((next_entry->d_name)[0] == '.')
-			continue;
-		add(&list, next_entry->d_name, &ft_strcmp);
-	}
-	ft_lstiter(list, &print);
-	if (errno != 0)
-		perror("readdir");
-	return (0);
-	}*/

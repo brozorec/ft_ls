@@ -17,7 +17,7 @@ void		file_links(long link, int biggest)
 	int				siz;
 	int				i;
 
-	siz = ft_getsize_nbr((void *)link);
+	siz = ft_getsize_nbr(link);
 	i = biggest - siz + 2;
 	while (i > 0)
 	{
@@ -79,7 +79,7 @@ void		file_size(long long size, int biggest)
 	int			siz;
 	int			i;
 
-	siz = ft_getsize_nbr((void *)size);
+	siz = ft_getsize_nbr(size);
 	i = biggest - siz + 2;
 	while (i > 0)
 	{
@@ -95,7 +95,7 @@ void		file_devices(long dev)
 	int			siz;
 	int			i;
 
-	siz = ft_getsize_nbr((void *)dev);
+	siz = ft_getsize_nbr(dev);
 	i = siz + 2;
 	while (i > 0)
 	{

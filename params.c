@@ -40,8 +40,8 @@ t_cont
 	}
 	else
 	{
-		new->val = (time_t *)malloc(sizeof(time_t *));
-		new->val = (void *)new->mtime;
+		new->val = (long long *)malloc(sizeof(long long *));
+		*(long long *)new->val = new->mtime;
 	}
 	return (new);
 }
@@ -103,40 +103,3 @@ void
 		lst->counter++;
 	}
 }
-
-/*t_cont_params
-	*cont_params_init(t_cont_params *new)
-{
-	new->dir = 0;
-	if ((new = (t_cont_params *)malloc(sizeof(new))) == 0)
-		return (0);
-	if ((new->err = (t_cont *)malloc(sizeof(new->err))) == 0)
-		return (0);
-	if ((new->file = (t_cont *)malloc(sizeof(new->file))) == 0)
-		return (0);
-	if ((new->dir = (t_cont *)malloc(sizeof(new->dir))) == 0)
-		return (0);
-	return (new);
-}
-
-int					main(int ac, char **av)
-{
-	int				i;
-	t_cont_params	lst;
-	t_option		option;
-
-	if (ac == 1)
-	{
-//		list_content_dir(".");
-		return (0);
-	}
-	cont_params_init(&lst);
-	i = treat_options(&option, av);
-	while (i != ac)
-	{
-		collect_params(av[i], option, &lst);
-		i++;
-	}
-	print(lst, option);
-	return (0);
-	}*/

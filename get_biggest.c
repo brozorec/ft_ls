@@ -58,7 +58,7 @@ int			get_biggest_link(t_cont *copy)
 	i = 0;
 	while (copy)
 	{
-		siz = ft_getsize_nbr((void *)copy->nlink);
+		siz = ft_getsize_nbr(copy->nlink);
 		if (siz > i)
 			i = siz;
 		copy = copy->next;
@@ -74,7 +74,7 @@ int			get_biggest_size(t_cont *copy)
 	i = 0;
 	while (copy)
 	{
-		siz = ft_getsize_nbr((void *)copy->size);
+		siz = ft_getsize_nbr(copy->size);
 		if (siz > i)
 			i = siz;
 		copy = copy->next;

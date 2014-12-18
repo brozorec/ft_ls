@@ -51,7 +51,7 @@ typedef struct				s_content
 	long					gid;
 	long					rdev;
 	long long				size;
-	long long				mtime;
+  	long long				mtime;
 	struct s_content		*next;
 }							t_cont;
 

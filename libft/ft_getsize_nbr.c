@@ -12,13 +12,11 @@
 
 #include "./includes/libft.h"
 
-int			ft_getsize_nbr(void *nbr)
+int			ft_getsize_nbr(long n)
 {
 	int			i;
-	long long	n;
 
 	i = 1;
-	n = (long long)nbr;
 	while (n / 10 > 0)
 	{
 		n = n / 10;
