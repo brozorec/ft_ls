@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 15:01:09 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/17 17:40:44 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/19 20:08:03 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,28 @@ int
 	new->next = list;
 	tmp->next = new;
 	list = tmp;
+	return (0);
+}
+
+int
+	alpha_rev(t_cont **list, t_cont **new, t_cont **tmp)
+{
+	while (*list && (*list)->val == (*new)->val)
+	{
+		if (ft_strcmp_rev((*list)->name, (*new)->name) >= 0)
+		{
+			if (case_greater(*list, *new, *tmp) == 1)
+				return (1);
+			return (0);
+		}
+		if ((*list)->next == 0 || (*list)->next->val != (*new)->val)
+		{
+			(*new)->next = (*list)->next;
+			(*list)->next = *new;
+			return (0);
+		}
+		*list = (*list)->next;
+	}
 	return (0);
 }
 
@@ -45,9 +67,9 @@ int
 		}
 		*list = (*list)->next;
 	}
-	if (ft_strcmp_rev((*list)->name, (*new)->name) >= 0 && option.r == 1)
+	if (option.r == 1)
 	{
-		if (case_greater(*list, *new, *tmp) == 1)
+		if (alpha_rev(list, new, tmp) == 1)
 			return (1);
 	}
 	return (0);
@@ -73,14 +95,11 @@ int
 				return (1);
 			return (0);
 		}
-		if (list->next == 0)
-		{
-			list->next = new;
-			return (0);
-		}
 		tmp = list;
 		list = list->next;
 	}
+	list = tmp;
+	list->next = new;
 	return (0);
 }
 
