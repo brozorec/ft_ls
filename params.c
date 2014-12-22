@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 17:02:53 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/19 19:30:18 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/22 17:39:09 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_cont
 	}
 	else
 	{
-		new->val = (long long *)malloc(sizeof(long long *));
+		new->val = (long *)malloc(sizeof(long *));
 		new->val = (void *)new->mtime;
 	}
 	return (new);

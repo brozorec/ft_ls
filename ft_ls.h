@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 15:02:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/17 12:21:16 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/22 17:38:07 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct				s_content
 	long					gid;
 	long					rdev;
 	long long				size;
-  	long long				mtime;
+  	long					mtime;
 	struct s_content		*next;
 }							t_cont;
 

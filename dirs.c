@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/13 15:30:11 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/16 15:04:07 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/22 19:52:23 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,12 @@ t_cont
 		print_dir_content(path, list, lst, option);
 	closedir(dirp);
 	if (errno != 0)
+	{
+		ft_putstr(list->path);
+		ft_putstr("\n");
 		perror("readdir");
+		exit(0);
+	}
 	if (option.recursive == 1)
 	{
 		if (dir_tree(list, lst, option) == 0)

@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/10 13:17:12 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/10 13:26:16 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/22 19:35:31 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,5 @@
 
 long		ft_numcmp_rev(void *num1, void *num2)
 {
-	long		*n1;
-	long		*n2;
-
-	n1 = num1;
-	n2 = num2;
-	return (n2 - n1);
+	return ((long)(num2 - num1));
 }
