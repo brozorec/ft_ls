@@ -81,3 +81,22 @@ int			get_biggest_size(t_cont *copy)
 	}
 	return (i);
 }
+
+int			get_biggest_date(t_cont *copy)
+{
+	int			i;
+	int			siz;
+	char		**tab;
+
+	i = 0;
+	while (copy)
+	{
+		tab = 0;
+		tab = ft_strsplit(ctime(&copy->mtime), ' ');
+		siz = ft_strlen(tab[2]);
+		if (siz > i)
+			i = siz;
+		copy = copy->next;
+	}
+	return (i);
+}

@@ -37,15 +37,9 @@ int
 				return (1);
 			return (0);
 		}
-		if ((*list)->next != 0 && (*list)->next->val != (*new)->val)
+		if ((*list)->next == 0 || (*list)->next->val != (*new)->val)
 		{
-			(*new)->next = *list;
-			(*tmp)->next = *new;
-			*list = *tmp;
-			return (0);
-		}
-		if ((*list)->next == 0)
-		{
+			(*new)->next = (*list)->next;
 			(*list)->next = *new;
 			return (0);
 		}
@@ -66,18 +60,12 @@ int
 				return (1);
 			return (0);
 		}
-		if ((*list)->next != 0 && (*list)->next->val != (*new)->val)
+		if ((*list)->next == 0 || (*list)->next->val != (*new)->val)
 		{
-			(*new)->next = *list;
-			(*tmp)->next = *new;
-			*list = *tmp;
+			(*new)->next = (*list)->next;
+			(*list)->next = *new;
 			return (0);
 		}
-//		if ((*list)->next == 0)
-//		{
-//			(*list)->next = *new;
-//			return (0);
-//		}
 		*tmp = *list;
 		*list = (*list)->next;
 	}
@@ -87,8 +75,6 @@ int
 			return (1);
 		return (0);
 	}
-	*list = *tmp;
-	(*list)->next = *new;
 	return (0);
 }
 

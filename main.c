@@ -35,23 +35,6 @@ t_param
 	return (new);
 }
 
-/*void
-	set_level(t_param *lst)
-{
-	t_cont	*ptr;
-	int		i;
-
-	ptr = lst->dir;
-	i = 1;
-	while (lst->dir)
-	{
-		lst->dir->level = i;
-		i++;
-		lst->dir = lst->dir->next;
-	}
-	lst->dir = ptr;
-}*/
-
 int
 	main(int ac, char **av)
 {

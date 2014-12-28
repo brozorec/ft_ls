@@ -83,10 +83,13 @@ void						file_links(long link, int biggest);
 void						file_user(long user, int biggest);
 void						file_group(long group, int biggest);
 void						file_size(long long size, int biggest);
+void						file_time(long mtime, int flag, size_t biggest);
 void						file_devices(long rdev);
 int							get_biggest_link(t_cont *copy);
 int							get_biggest_size(t_cont *copy);
 int							get_biggest_gid(t_cont *copy);
 int							get_biggest_uid(t_cont *copy);
+int							get_biggest_date(t_cont *copy);
+int							get_year_flag(t_cont *copy);
 
 #endif

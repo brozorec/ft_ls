@@ -28,8 +28,6 @@ void
 			list = list->next;
 			continue;
 		}
-		ft_putstr(list->name);
-		ft_putstr("\n");
 		list = list->next;
 	}
 	if (lst->flag == 1)
@@ -47,8 +45,8 @@ void
 	while (lst->err)
 	{
 		j++;
-		ft_putstr(lst->err->name);
-		ft_putstr("\n");
+		handle_err(lst->err->name);
+		handle_err(": No such file or directory\n");
 		lst->err = lst->err->next;
 	}
 	if (lst->file)

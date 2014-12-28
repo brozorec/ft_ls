@@ -52,7 +52,10 @@ int
 	struct stat			buf;
 	int					i;
 
-	i = stat(path, &buf);
+	if (option.l == 0)
+		i = stat(path, &buf);
+	else
+		i = lstat(path, &buf);
 	if (i == -1)
 	{
 		*new = create_new(name, *new, 0, option);

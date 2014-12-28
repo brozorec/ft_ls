@@ -73,3 +73,19 @@ void		file_perm_second(unsigned long mode)
 	else
 		write(1, "-", 1);
 }
+
+void		file_links(long link, int biggest)
+{
+	int				siz;
+	int				i;
+
+	siz = ft_getsize_nbr(link);
+	i = biggest - siz + 2;
+	while (i > 0)
+	{
+		ft_putchar(' ');
+		i--;
+	}
+	ft_putnbr(link);
+	ft_putchar(' ');
+}
