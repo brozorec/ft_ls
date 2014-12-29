@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 17:02:53 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/13 17:45:48 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/29 14:28:48 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,17 +97,3 @@ int					treat_options(t_option *option, char **av)
 		option->emp_tr = 1;
 	return (i);
 }
-
-/*int					main(int ac, char **av)
-{
-	t_option		option;
-
-	treat_options(&option, av);
-	printf("emp: %d\n", option.empty);
-	printf("l: %d\n", option.l);
-	printf("r: %d\n", option.r);
-	printf("R: %d\n", option.recursive);
-	printf("a: %d\n", option.a);
-	printf("t: %d\n", option.t);
-	return (0);
-	}*/

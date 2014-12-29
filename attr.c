@@ -6,53 +6,25 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/14 17:27:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/17 11:30:54 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/29 19:29:05 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int			get_year_flag(t_cont *list)
+void		attr_perm_link_group_siz_dev_time(t_cont *list, t_biggest *bist)
 {
-	int			flag1;
-	int			flag2;
-
-	flag1 = 0;
-	flag2 = 0;
-	while(list)
-	{
-		if (time(0) - 15778463 > list->mtime || list->mtime > time(0))
-			flag1 = 1;
-		else
-			flag2 = 1;
-		list = list->next;
-	}
-	if (flag1 == 1 && flag2 == 1)
-		return (1);
-	return (0);
-}
-
-void		attr_perm_link_group_siz_dev(t_cont *list)
-{
-	int			link_biggest;
-	int			size_biggest;
-	int			uid_biggest;
-	int			gid_biggest;
-
-	link_biggest = get_biggest_link(list);
-	size_biggest = get_biggest_size(list);
-	uid_biggest = get_biggest_uid(list);
-	gid_biggest = get_biggest_gid(list);
 	file_type(list->mode);
 	file_perm_first(list->mode);
 	file_perm_second(list->mode);
-	file_links(list->nlink, link_biggest);
-	file_user(list->uid, uid_biggest);
-	file_group(list->gid, gid_biggest);
+	file_links(list->nlink, bist);
+	// file_user(list->uid, bist);
+	// file_group(list->gid, bist);
 	if (S_ISCHR(list->mode) || S_ISBLK(list->mode))
-		file_devices(list->rdev);
+		file_devices(list->rdev, bist);
 	else
-		file_size(list->size, size_biggest);
+		file_size(list->size, bist);
+	file_time(list->mtime, bist);
 }
 
 void		get_symlink(char *link_path)
@@ -67,27 +39,17 @@ void		get_symlink(char *link_path)
 	ft_putstr(buf);
 }
 
-void		get_attr(t_cont *list, t_option option)
+void		get_attr(t_cont *list, t_biggest *bist, t_option option)
 {
-	int			year_flag;
-	size_t		date_biggest;
-	
-	year_flag = get_year_flag(list);
-	date_biggest = get_biggest_date(list);
-	while (list)
+	if (option.l == 1)
 	{
-		if (option.l == 1)
-		{
-			attr_perm_link_group_siz_dev(list);
-			file_time(list->mtime, year_flag, date_biggest);
-		}
-		ft_putstr(list->name);
-		if (option.l == 1 && S_ISLNK(list->mode))
-		{
-			ft_putstr(" -> ");
-			get_symlink(list->path);
-		}
-		ft_putstr("\n");
-		list = list->next;
+		attr_perm_link_group_siz_dev_time(list, bist);
 	}
+	ft_putstr(list->name);
+	if (option.l == 1 && S_ISLNK(list->mode))
+	{
+		ft_putstr(" -> ");
+		get_symlink(list->path);
+	}
+	ft_putstr("\n");
 }

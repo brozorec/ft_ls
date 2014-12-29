@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   attr.c                                             :+:      :+:    :+:   */
+/*   attr1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/14 17:27:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/16 18:29:26 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/29 13:59:59 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,13 @@ void		file_perm_second(unsigned long mode)
 		write(1, "-", 1);
 }
 
-void		file_links(long link, int biggest)
+void		file_links(long link, t_biggest *bist)
 {
 	int				siz;
 	int				i;
 
 	siz = ft_getsize_nbr(link);
-	i = biggest - siz + 2;
+	i = bist->link_biggest - siz + 2;
 	while (i > 0)
 	{
 		ft_putchar(' ');
