@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/13 15:17:08 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/16 14:44:48 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/30 20:16:35 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_param
 	*cont_params_init(void)
 {
-  t_param	*new;
+	t_param			*new;
 
 	if ((new = (t_param *)malloc(sizeof(new))) == 0)
 		return (0);
@@ -35,6 +35,15 @@ t_param
 	return (new);
 }
 
+void
+	free_param(t_param *lst)
+{
+	free_cont(lst->err);
+	free_cont(lst->file);
+	free_cont(lst->dir);
+	free(lst);
+}
+
 int
 	main(int ac, char **av)
 {
@@ -52,5 +61,6 @@ int
 		i++;
 	}
 	print(lst, option);
+	free_param(lst);
 	return (0);
 }

@@ -21,6 +21,7 @@ void
 	(*new)->gid = buf->st_gid;
 	(*new)->rdev = buf->st_rdev;
 	(*new)->size = buf->st_size;
+	(*new)->blocks = buf->st_blocks;
 	(*new)->mtime = buf->st_mtime;
 }
 

@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 15:02:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/29 20:01:27 by bbarakov         ###   ########.fr       */
+/*   Updated: 2014/12/30 20:29:31 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ typedef struct				s_content
 {
 	char					*name;
 	char					*path;
-	char					*addr;
 	void					*val;
 	unsigned long			mode;
 	long					nlink;
@@ -52,6 +51,7 @@ typedef struct				s_content
 	long					rdev;
 	long long				size;
   	long					mtime;
+  	long					blocks;
 	struct s_content		*next;
 }							t_cont;
 
@@ -72,10 +72,10 @@ typedef struct 				s_biggest
 	int						size_biggest;
 	int						uid_biggest;
 	int						gid_biggest;
-	int						flag_year;
-	size_t					date_biggest;
 	int						flag_there_is_dev;
 	int						flag_big_file;
+	int						flag_not_hidden;
+	long					blocks;
 }							t_biggest;
 
 t_cont						*content_dir(char *s, t_param *lst, t_option option);
@@ -87,7 +87,7 @@ void						print(t_param *lst, t_option option);
 void						handle_err(char *s);
 int							treat_options(t_option *option, char **av);
 int							add(t_cont **lst, t_cont *new, t_option opt, long (*f)(void *a, void *b));
-void						get_attr(t_cont *list, t_biggest *bist, t_option option);
+void						put_attr(t_cont *list, t_biggest *bist, t_option option);
 void						file_type(unsigned long mode);
 void						file_perm_first(unsigned long mode);
 void						file_perm_second(unsigned long mode);
@@ -95,14 +95,11 @@ void						file_links(long link, t_biggest *bist);
 void						file_user(long user, t_biggest *bist);
 void						file_group(long group, t_biggest *bist);
 void						file_size(long long size, t_biggest *bist);
-void						file_time(long mtime, t_biggest *bist);
-void						file_devices(long rdev, t_biggest *bist);
+void						file_time(long mtime);
+void						file_devices(long rdev);
 t_biggest					*get_biggest(t_cont *list, t_option option, int flag_i_am_dir);
-int							get_biggest_link(t_cont *list, t_option option, int flag_i_am_dir);
-int							get_biggest_size(t_cont *list, t_option option, int flag_i_am_dir);
-int							get_biggest_gid(t_cont *list, t_option option, int flag_i_am_dir);
-int							get_biggest_uid(t_cont *list, t_option option, int flag_i_am_dir);
-int							get_biggest_date(t_cont *list, t_option option, int flag_i_am_dir);
-int							get_year_flag(t_cont *list, t_option option, int flag_i_am_dir);
+t_biggest					*get_biggest_attr(t_cont *list, t_option option, t_biggest *bist, int flag_i_am_dir);
+void						free_param(t_param *lst);
+void						free_cont(t_cont *list);
 
 #endif
