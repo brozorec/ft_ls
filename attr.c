@@ -18,8 +18,8 @@ void		attr_perm_link_group_siz_dev_time(t_cont *list, t_biggest *bist)
 	file_perm_first(list->mode);
 	file_perm_second(list->mode);
 	file_links(list->nlink, bist);
-	// file_user(list->uid, bist);
-	// file_group(list->gid, bist);
+	file_user(list->uid, bist);
+	file_group(list->gid, bist);
 	if (S_ISCHR(list->mode) || S_ISBLK(list->mode))
 		file_devices(list->rdev, bist);
 	else

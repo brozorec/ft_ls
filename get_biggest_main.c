@@ -95,7 +95,7 @@ t_biggest		*get_biggest(t_cont *list, t_option option, int flag_i_am_dir)
 	bist->date_biggest = get_biggest_date(list, option, flag_i_am_dir);
 	bist->flag_there_is_dev = check_if_dev(list, option, flag_i_am_dir);
 	bist->flag_big_file = check_if_big(list, option, flag_i_am_dir);
-	printf("%d\n", bist->size_biggest);
+	// printf("%d\n", bist->size_biggest);
 	// printf("%d\n", bist->flag_there_is_dev);
 	return (bist);
 }
