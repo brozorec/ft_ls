@@ -35,7 +35,7 @@ void		put_symlink(char *link_path)
 	num_bytes = readlink(link_path, buf, 4095);
 	buf[num_bytes] = '\0';
 	if (num_bytes == -1)
-		handle_err("readlink");
+		handle_err("readlink", link_path);
 	ft_putstr(buf);
 }
 

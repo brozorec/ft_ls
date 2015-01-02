@@ -84,7 +84,7 @@ int							fill_list(t_cont **lst, t_cont *new, t_option option);
 int							detect_type(char *name, char *path, t_cont **new, t_option option);
 void						print_dir_content(char *path, t_cont *list, t_param *lst, t_option option);
 void						print(t_param *lst, t_option option);
-void						handle_err(char *s);
+void						handle_err(char *s1, char *s2);
 int							treat_options(t_option *option, char **av);
 int							add(t_cont **lst, t_cont *new, t_option opt, long (*f)(void *a, void *b));
 void						put_attr(t_cont *list, t_biggest *bist, t_option option);
@@ -99,7 +99,8 @@ void						file_time(long mtime);
 void						file_devices(long rdev);
 t_biggest					*get_biggest(t_cont *list, t_option option, int flag_i_am_dir);
 t_biggest					*get_biggest_attr(t_cont *list, t_option option, t_biggest *bist, int flag_i_am_dir);
-void						free_param(t_param *lst);
-void						free_cont(t_cont *list);
+void						free_param(t_param *lst, t_option option);
+void						free_cont(t_cont *list, t_option option);
+void						free_cont_err(t_cont *list);
 
 #endif

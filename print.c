@@ -12,6 +12,13 @@
 
 #include "ft_ls.h"
 
+void
+	put_dir_name(char *s)
+{
+	ft_putstr(s);
+	ft_putstr(":\n");
+}
+
 t_biggest
 	*print_blocks_get_biggest(t_cont *list, t_biggest *bist, t_option option)
 {
@@ -36,7 +43,7 @@ void
 	else if (lst->flag == 0)
 		ft_putstr("\n");
 	if (lst->dir_num > 1 || lst->flag == 0)
-		ft_putstr(ft_strjoin(path, ":\n"));
+		put_dir_name(path);
 	if (option.l == 1)
 		bist = print_blocks_get_biggest(list, bist, option);
 	while (list)
@@ -63,13 +70,12 @@ void
 
 	i = 0;
 	j = 0;
-	bist = 0;
 	bist = get_biggest(lst->file, option, 0);
 	while (lst->err)
 	{
 		j++;
-		handle_err(ft_strjoin("ft_ls: ", lst->err->name));
-		handle_err(": No such file or directory\n");
+		handle_err("ft_ls: ", lst->err->name);
+		// perror(lst->err->name);
 		lst->err = lst->err->next;
 	}
 	while (lst->file)
@@ -81,13 +87,20 @@ void
 	if (i != 0 && lst->dir)
 		ft_putstr("\n");
 	if (lst->dir_num > 0 && (i != 0 || j != 0))
-		ft_putstr(ft_strjoin(lst->dir->name, ":\n"));
+		put_dir_name(lst->dir->name);
 	free(bist);
 }
 
 void
 	print(t_param *lst, t_option option)
 {
+	t_cont		*copy_err;
+	t_cont		*copy_file;
+	t_cont		*copy_dir;
+
+	copy_err = lst->err;
+	copy_file = lst->file;
+	copy_dir = lst->dir;
 	print_err_file(lst, option);
 	while (lst->dir)
 	{
@@ -95,5 +108,10 @@ void
 		lst->flag = 1;
 		content_dir(lst->dir->name, lst, option);
 		lst->dir = (lst->dir)->next;
+		free(lst->dir_name);
 	}
+	lst->err = copy_err;
+	lst->file = copy_file;
+	lst->dir = copy_dir;
+	free_param(lst, option);
 }

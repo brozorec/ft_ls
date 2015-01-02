@@ -17,14 +17,8 @@ t_param
 {
 	t_param			*new;
 
-	if ((new = (t_param *)malloc(sizeof(new))) == 0)
-		return (0);
-	if ((new->err = (t_cont *)malloc(sizeof(new->err))) == 0)
-		return (0);
-	if ((new->file = (t_cont *)malloc(sizeof(new->file))) == 0)
-		return (0);
-	if ((new->dir = (t_cont *)malloc(sizeof(new->dir))) == 0)
-		return (0);
+	if ((new = (t_param *)malloc(sizeof(*new))) == 0)
+		perror("malloc");
 	new->err = 0;
 	new->file = 0;
 	new->dir = 0;
@@ -33,15 +27,6 @@ t_param
 	new->counter = 0;
 	new->flag = 0;
 	return (new);
-}
-
-void
-	free_param(t_param *lst)
-{
-	free_cont(lst->err);
-	free_cont(lst->file);
-	free_cont(lst->dir);
-	free(lst);
 }
 
 int
@@ -61,6 +46,5 @@ int
 		i++;
 	}
 	print(lst, option);
-	free_param(lst);
 	return (0);
 }

@@ -50,7 +50,6 @@ void		file_time(long mtime)
 	else
 		put_hour(tab_h[0], tab_h[1]);
 	ft_putstr(" ");
-	// ft_strdel(&str);
-	// free(tab);
-	// free(tab_h);
+	ft_strdel(tab);
+	ft_strdel(tab_h);
 }

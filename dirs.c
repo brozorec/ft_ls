@@ -16,12 +16,16 @@ void
 	collect_content_dir(char *name, char *path, t_cont **list, t_option option)
 {
 	t_cont				*new;
+	char				*path_new;
 
 	new = 0;
-	path = ft_strjoin(path, "/");
-	path = ft_strjoin(path, name);
-	detect_type(name, path, &new, option);
+	path_new = 0;
+	path_new = ft_strjoin(path, "/");
+	path_new = ft_realloc(path_new, ft_strlen(name) + ft_strlen(path_new) + 10);
+	path_new = ft_strcat(path_new, name);
+	detect_type(name, path_new, &new, option);
 	fill_list(list, new, option);
+	free(path_new);
 }
 
 int
@@ -46,19 +50,6 @@ int
 	return (0);
 }
 
-void
-	free_cont(t_cont *list)
-{
-	while (list)
-	{
-		free(list->name);
-		free(list->path);
-		free(list->val);
-		list = list->next;
-	}
-	free(list);
-}
-
 t_cont
 	*content_dir(char *path, t_param *lst, t_option option)
 {
@@ -68,10 +59,7 @@ t_cont
 
 	list = 0;
 	if ((dirp = opendir(path)) == 0)
-	{
-		perror(ft_strjoin("ft_ls: ", path));
-		// exit(0);
-	}
+		handle_err("ft_ls: ", path);
 	errno = 0;
 	while (dirp != 0 && (entry = readdir(dirp)) != 0)
 		collect_content_dir(entry->d_name, path, &list, option);
@@ -80,16 +68,9 @@ t_cont
 	if (dirp != 0)
 		closedir(dirp);
 	if (errno != 0)
-	{
-		ft_putstr(list->path);
-		ft_putstr("\n");
-		perror("readdir");
-		exit(0);
-	}
+		handle_err("ft_ls: ", path);
 	if (option.recursive == 1)
-	{
-		if (dir_tree(list, lst, option) == 0)
-			free_cont(list);
-	}
+		dir_tree(list, lst, option);
+	free_cont(list, option);
 	return (0);
 }

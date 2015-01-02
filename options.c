@@ -24,9 +24,11 @@ int					illigal_option(char *s)
 			s[i] != 'a' && s[i] != 't')
 		{
 			ch = s[i];
-			handle_err("ft_ls: illegal option -- ");
-			handle_err(ft_strjoin(&ch, "\n"));
-			handle_err(ft_strjoin("usage: ft_ls [-Ralrt] [file ...]", "\n"));
+			handle_err("ft_ls: illegal option -- ", 0);
+			handle_err(&ch, 0);
+			handle_err("\n", 0);
+			handle_err("usage: ft_ls [-Ralrt] [file ...]", 0);
+			handle_err("\n", 0);
 			exit (2);
 		}
 		i++;

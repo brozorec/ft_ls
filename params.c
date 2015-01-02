@@ -29,19 +29,20 @@ t_cont
 	*create_new(char *name, t_cont *new, struct stat *buf, t_option option)
 {
 	if ((new = (t_cont *)malloc(sizeof(t_cont))) == 0)
-		return (0);
+		perror("malloc");
 	if (buf != 0)
 		cont_init(&new, buf);
 	new->name = ft_strdup(name);
 	new->next = 0;
 	if (option.t == 0 || buf == 0)
 	{
-		new->val = (char *)malloc(ft_strlen(name) + 1);
+		if ((new->val = (char *)malloc(ft_strlen(name) + 1)) == 0)
+			perror("malloc");
 		ft_memcpy(new->val, name, ft_strlen(name) + 1);
 	}
 	else
 	{
-		new->val = (long *)malloc(sizeof(long *));
+		// new->val = (long *)malloc(sizeof(long));
 		new->val = (void *)new->mtime;
 	}
 	return (new);

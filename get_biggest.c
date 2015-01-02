@@ -22,14 +22,10 @@ t_biggest
 	siz = ft_getsize_nbr(list->nlink);
 	if (siz > bist->link_biggest)
 		bist->link_biggest = siz;
-	new_uid = (struct passwd *)malloc(sizeof(struct passwd *));
-	new_uid = 0;
 	new_uid = getpwuid(list->uid);
 	siz = ft_strlen(new_uid->pw_name);
 	if (siz > bist->uid_biggest)
 		bist->uid_biggest = siz;
-	new_gid = (struct group *)malloc(sizeof(struct group *));
-	new_gid = 0;
 	new_gid = getgrgid(list->gid);
 	siz = ft_strlen(new_gid->gr_name);
 	if (siz > bist->gid_biggest)
@@ -73,7 +69,7 @@ t_biggest
 {
 	t_biggest		*bist;
 
-	bist = (t_biggest *)malloc(sizeof(t_biggest *));
+	bist = (t_biggest *)malloc(sizeof(*bist));
 	bist->link_biggest = 0;
 	bist->size_biggest = 0;
 	bist->uid_biggest = 0;
