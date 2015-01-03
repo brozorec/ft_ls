@@ -12,8 +12,8 @@
 
 NAME = ft_ls
 
-SRC = attr.c attr1.c attr2.c attr_time.c dirs.c errors.c get_biggest.c \
-main.c options.c params.c print.c sort.c
+SRC = attr.c attr1.c attr2.c attr_time.c dirs.c errors_and_free.c \
+get_biggest.c main.c options.c params.c print.c sort.c
 
 INCLUDES = .
 

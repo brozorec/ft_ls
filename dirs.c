@@ -6,13 +6,13 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/13 15:30:11 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/30 20:15:46 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/03 19:37:50 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void
+int
 	collect_content_dir(char *name, char *path, t_cont **list, t_option option)
 {
 	t_cont				*new;
@@ -20,20 +20,31 @@ void
 
 	new = 0;
 	path_new = 0;
-	path_new = ft_strjoin(path, "/");
+	if (ft_strcmp(path, "/") == 0)
+		path_new = ft_strdup("/");
+	else
+		path_new = ft_strjoin(path, "/");
 	path_new = ft_realloc(path_new, ft_strlen(name) + ft_strlen(path_new) + 10);
 	path_new = ft_strcat(path_new, name);
-	detect_type(name, path_new, &new, option);
+	if (detect_type(name, path_new, &new, option) == -1)
+	{
+		free(path_new);
+		return (-1);
+	}
 	fill_list(list, new, option);
 	free(path_new);
+	return (0);
 }
 
 int
 	dir_tree(t_cont *list, t_param *lst, t_option option)
 {
+	struct stat			buf;
+
 	while (list)
 	{
-		if (ft_strcmp(list->name, ".") == 0 || ft_strcmp(list->name, "..") == 0)
+		lstat(list->path, &buf);
+		if (ft_strcmp(list->name, ".") == 0 || ft_strcmp(list->name, "..") == 0 || S_ISLNK(buf.st_mode))
 		{
 			list = list->next;
 			continue;
@@ -58,19 +69,29 @@ t_cont
 	t_cont				*list;
 
 	list = 0;
-	if ((dirp = opendir(path)) == 0)
-		handle_err("ft_ls: ", path);
 	errno = 0;
-	while (dirp != 0 && (entry = readdir(dirp)) != 0)
-		collect_content_dir(entry->d_name, path, &list, option);
-	if (lst->flag == 1 || option.a == 1 || (lst->dir_name[0] != '.' && option.a == 0))
-		print_dir_content(path, list, lst, option);
-	if (dirp != 0)
+	if ((dirp = opendir(path)) != 0)
+	{
+		while (1)
+		{
+			errno = 0;
+			if ((entry = readdir(dirp)) != 0)
+				collect_content_dir(entry->d_name, path, &list, option);
+			if (entry == 0 && errno == 0)
+				break ;
+		}
+		if (list && (lst->flag == 1 || option.a == 1 || (lst->dir_name[0] != '.' && option.a == 0)))
+			print_dir_content(path, list, lst, option);
 		closedir(dirp);
-	if (errno != 0)
-		handle_err("ft_ls: ", path);
-	if (option.recursive == 1)
-		dir_tree(list, lst, option);
-	free_cont(list, option);
+		if (option.recursive == 1)
+			dir_tree(list, lst, option);
+		free_cont(list, option);
+	}
+	else
+	{
+		printf("%d\n", errno);
+		if (errno != 14)
+			handle_err_eacces("ft_ls: ", ft_strrchr(path, '/') + 1);
+	}
 	return (0);
 }

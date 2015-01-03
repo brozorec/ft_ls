@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 17:02:53 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/22 17:39:09 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/03 20:09:58 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_cont
 	*create_new(char *name, t_cont *new, struct stat *buf, t_option option)
 {
 	if ((new = (t_cont *)malloc(sizeof(t_cont))) == 0)
-		perror("malloc");
+		handle_err("ft_ls: ", "malloc");
 	if (buf != 0)
 		cont_init(&new, buf);
 	new->name = ft_strdup(name);
@@ -37,14 +37,11 @@ t_cont
 	if (option.t == 0 || buf == 0)
 	{
 		if ((new->val = (char *)malloc(ft_strlen(name) + 1)) == 0)
-			perror("malloc");
+			handle_err("ft_ls: ", "malloc");
 		ft_memcpy(new->val, name, ft_strlen(name) + 1);
 	}
 	else
-	{
-		// new->val = (long *)malloc(sizeof(long));
 		new->val = (void *)new->mtime;
-	}
 	return (new);
 }
 
@@ -58,21 +55,25 @@ int
 		i = stat(path, &buf);
 	else
 		i = lstat(path, &buf);
+	if (errno == 62)
+		i = lstat(path, &buf);
+	if (errno == 13)
+	{
+		if (name[0] != '.' || option.a != 0)
+			handle_err_eacces("ft_ls: ", ft_strrchr(path, '/') + 1);
+		return (-1);
+	}
 	if (i == -1)
 	{
 		*new = create_new(name, *new, 0, option);
-		return (-1);
+		(*new)->path = ft_strdup(path);
+		return (0);
 	}
 	*new = create_new(name, *new, &buf, option);
 	(*new)->path = ft_strdup(path);
 	if (S_ISDIR(buf.st_mode))
 		return (2);
-	else
-		return (1);
-/*
- *	other types
- */
-	return (0);
+	return (1);
 }
 
 int
@@ -97,7 +98,7 @@ void
 
 	new = 0;
 	i = detect_type(name, name, &new, option);
-	if (i == -1)
+	if (i == 0)
 		add(&(lst->err), new, option, &ft_strcmp);
 	else if (i == 1)
 		fill_list(&(lst->file), new, option);

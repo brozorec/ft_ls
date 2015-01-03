@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/14 17:27:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/30 14:53:00 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/03 11:35:49 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void		put_symlink(char *link_path)
 	num_bytes = readlink(link_path, buf, 4095);
 	buf[num_bytes] = '\0';
 	if (num_bytes == -1)
-		handle_err("readlink", link_path);
+		handle_err("ft_ls: ", link_path);
 	ft_putstr(buf);
 }
 

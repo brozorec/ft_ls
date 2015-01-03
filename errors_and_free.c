@@ -6,15 +6,27 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/10 19:16:23 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/10 19:31:28 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/03 20:09:36 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+void		handle_err_eacces(char *s1, char *s2)
+{
+	if (errno == 13)
+	{
+		if (s1)
+			write(2, s1, ft_strlen(s1));
+		if (s2 != 0)
+			perror(s2);
+	}
+}
+
 void		handle_err(char *s1, char *s2)
 {
-	write(2, s1, ft_strlen(s1));
+	if (s1)
+		write(2, s1, ft_strlen(s1));
 	if (s2 != 0)
 		perror(s2);
 }

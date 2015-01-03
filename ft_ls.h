@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 15:02:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/30 20:29:31 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/03 15:18:30 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int							fill_list(t_cont **lst, t_cont *new, t_option option);
 int							detect_type(char *name, char *path, t_cont **new, t_option option);
 void						print_dir_content(char *path, t_cont *list, t_param *lst, t_option option);
 void						print(t_param *lst, t_option option);
+void						handle_err_eacces(char *s1, char *s2);
 void						handle_err(char *s1, char *s2);
 int							treat_options(t_option *option, char **av);
 int							add(t_cont **lst, t_cont *new, t_option opt, long (*f)(void *a, void *b));

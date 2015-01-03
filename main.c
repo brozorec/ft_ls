@@ -18,7 +18,7 @@ t_param
 	t_param			*new;
 
 	if ((new = (t_param *)malloc(sizeof(*new))) == 0)
-		perror("malloc");
+		handle_err("ft_ls: ", "malloc");
 	new->err = 0;
 	new->file = 0;
 	new->dir = 0;
