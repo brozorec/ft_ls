@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 17:02:53 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/03 20:09:58 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/04 16:14:23 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_cont
 	if (option.t == 0 || buf == 0)
 	{
 		if ((new->val = (char *)malloc(ft_strlen(name) + 1)) == 0)
-			handle_err("ft_ls: ", "malloc");
+			handle_err_eacces("ft_ls: ", "malloc");
 		ft_memcpy(new->val, name, ft_strlen(name) + 1);
 	}
 	else
@@ -51,12 +51,9 @@ int
 	struct stat			buf;
 	int					i;
 
-	if (option.l == 0)
+	i = lstat(path, &buf);
+	if (option.l == 0 && !S_ISLNK(buf.st_mode))
 		i = stat(path, &buf);
-	else
-		i = lstat(path, &buf);
-	if (errno == 62)
-		i = lstat(path, &buf);
 	if (errno == 13)
 	{
 		if (name[0] != '.' || option.a != 0)
@@ -79,7 +76,7 @@ int
 int
 	fill_list(t_cont **lst, t_cont *new, t_option option)
 {
-	if (option.emp_tr == 1)
+	if (option.t == 0 && option.r == 0)
 		add(lst, new, option, &ft_strcmp);
 	else if (option.t == 1 && option.r == 1)
 		add(lst, new, option, &ft_numcmp);

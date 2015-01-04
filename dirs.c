@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/13 15:30:11 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/03 19:37:50 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/04 11:26:10 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int
 	while (list)
 	{
 		lstat(list->path, &buf);
-		if (ft_strcmp(list->name, ".") == 0 || ft_strcmp(list->name, "..") == 0 || S_ISLNK(buf.st_mode))
+		if (!ft_strcmp(list->name, ".") || !ft_strcmp(list->name, "..") ||
+			S_ISLNK(buf.st_mode))
 		{
 			list = list->next;
 			continue;
@@ -61,26 +62,34 @@ int
 	return (0);
 }
 
-t_cont
-	*content_dir(char *path, t_param *lst, t_option option)
+void
+	read_dir_loop(DIR *dirp, char *path, t_cont **list, t_option option)
+{
+	struct dirent		*entry;
+
+	while (1)
+	{
+		errno = 0;
+		if ((entry = readdir(dirp)) != 0)
+			collect_content_dir(entry->d_name, path, list, option);
+		if (entry == 0 && errno == 0)
+			break ;
+	}
+}
+
+void
+	content_dir(char *path, t_param *lst, t_option option)
 {
 	DIR					*dirp;
-	struct dirent		*entry;
 	t_cont				*list;
 
 	list = 0;
 	errno = 0;
 	if ((dirp = opendir(path)) != 0)
 	{
-		while (1)
-		{
-			errno = 0;
-			if ((entry = readdir(dirp)) != 0)
-				collect_content_dir(entry->d_name, path, &list, option);
-			if (entry == 0 && errno == 0)
-				break ;
-		}
-		if (list && (lst->flag == 1 || option.a == 1 || (lst->dir_name[0] != '.' && option.a == 0)))
+		read_dir_loop(dirp, path, &list, option);
+		if (list && (lst->flag == 1 || option.a == 1 ||
+			(lst->dir_name[0] != '.' && option.a == 0)))
 			print_dir_content(path, list, lst, option);
 		closedir(dirp);
 		if (option.recursive == 1)
@@ -89,9 +98,7 @@ t_cont
 	}
 	else
 	{
-		printf("%d\n", errno);
 		if (errno != 14)
 			handle_err_eacces("ft_ls: ", ft_strrchr(path, '/') + 1);
 	}
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/14 17:27:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/29 13:59:59 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/04 17:38:56 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void		file_type(unsigned long mode)
 		write(1, "l", 1);
 }
 
-void		file_perm_first(unsigned long mode)
+void		file_perm_user(unsigned long mode)
 {
 	if (mode & S_IRUSR)
 		write(1, "r", 1);
@@ -41,9 +41,24 @@ void		file_perm_first(unsigned long mode)
 	else
 		write(1, "-", 1);
 	if (mode & S_IXUSR)
-		write(1, "x", 1);
+	{
+		if (mode & S_ISUID)
+			write(1, "s", 1);
+		else
+			write(1, "x", 1);
+	}
 	else
-		write(1, "-", 1);
+	{
+		if (mode & S_ISUID)
+			write(1, "S", 1);
+		else
+			write(1, "-", 1);
+	}
+
+}
+
+void		file_perm_group(unsigned long mode)
+{
 	if (mode & S_IRGRP)
 		write(1, "r", 1);
 	else
@@ -53,12 +68,22 @@ void		file_perm_first(unsigned long mode)
 	else
 		write(1, "-", 1);
 	if (mode & S_IXGRP)
-		write(1, "x", 1);
+	{
+		if (mode & S_ISGID)
+			write(1, "s", 1);
+		else
+			write(1, "x", 1);
+	}
 	else
-		write(1, "-", 1);
+	{
+		if (mode & S_ISGID)
+			write(1, "S", 1);
+		else
+			write(1, "-", 1);
+	}
 }
 
-void		file_perm_second(unsigned long mode)
+void		file_perm_others(unsigned long mode)
 {
 	if (mode & S_IROTH)
 		write(1, "r", 1);
@@ -69,18 +94,38 @@ void		file_perm_second(unsigned long mode)
 	else
 		write(1, "-", 1);
 	if (mode & S_IXOTH)
-		write(1, "x", 1);
+	{
+		if (mode & S_ISVTX)
+			write(1, "t", 1);
+		else
+			write(1, "x", 1);
+	}
 	else
-		write(1, "-", 1);
+	{
+		if (mode & S_ISVTX)
+			write(1, "T", 1);
+		else
+			write(1, "-", 1);
+	}
 }
 
-void		file_links(long link, t_biggest *bist)
+void		file_links(long link, t_biggest *bist, int xattr, int acl)
 {
 	int				siz;
 	int				i;
 
 	siz = ft_getsize_nbr(link);
 	i = bist->link_biggest - siz + 2;
+	if (xattr > 0)
+	{
+		i--;
+		ft_putchar('@');
+	}
+	else if (acl > 0)
+	{
+		i--;
+		ft_putchar('+');
+	}
 	while (i > 0)
 	{
 		ft_putchar(' ');

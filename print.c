@@ -75,7 +75,6 @@ void
 	{
 		j++;
 		handle_err("ft_ls: ", lst->err->name);
-		// perror(lst->err->name);
 		lst->err = lst->err->next;
 	}
 	while (lst->file)

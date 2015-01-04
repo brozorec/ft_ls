@@ -6,18 +6,24 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/14 17:27:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/03 11:35:49 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/04 19:21:40 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void		attr_perm_link_group_siz_dev_time(t_cont *list, t_biggest *bist)
+int			attr_perm_link_group_siz_dev_time(t_cont *list, t_biggest *bist)
 {
+	int 		xattr;
+	int 		acl;
+
 	file_type(list->mode);
-	file_perm_first(list->mode);
-	file_perm_second(list->mode);
-	file_links(list->nlink, bist);
+	file_perm_user(list->mode);
+	file_perm_group(list->mode);
+	file_perm_others(list->mode);
+	xattr = file_xattr(list->path);
+	acl = file_acl(list->path);
+	file_links(list->nlink, bist, xattr, acl);
 	file_user(list->uid, bist);
 	file_group(list->gid, bist);
 	if (S_ISCHR(list->mode) || S_ISBLK(list->mode))
@@ -25,6 +31,7 @@ void		attr_perm_link_group_siz_dev_time(t_cont *list, t_biggest *bist)
 	else
 		file_size(list->size, bist);
 	file_time(list->mtime);
+	return (xattr);
 }
 
 void		put_symlink(char *link_path)
@@ -41,9 +48,12 @@ void		put_symlink(char *link_path)
 
 void		put_attr(t_cont *list, t_biggest *bist, t_option option)
 {
+	int 		xattr;
+
+	xattr = 0;
 	if (option.l == 1)
 	{
-		attr_perm_link_group_siz_dev_time(list, bist);
+		xattr = attr_perm_link_group_siz_dev_time(list, bist);
 	}
 	ft_putstr(list->name);
 	if (option.l == 1 && S_ISLNK(list->mode))
@@ -52,4 +62,8 @@ void		put_attr(t_cont *list, t_biggest *bist, t_option option)
 		put_symlink(list->path);
 	}
 	ft_putstr("\n");
+	if (xattr > 0 && option.attr == 1 && option.l == 1)
+		put_xattr(list->path, xattr);
+	// if (option.acl == 1 && option.l == 1)
+		// put_acl(list->path);
 }

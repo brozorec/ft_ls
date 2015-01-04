@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 15:02:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/03 15:18:30 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/04 18:07:00 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 //# include <uuid/uuid.h>
 # include <sys/stat.h>
 # include <sys/xattr.h>
+# include <sys/acl.h>
 # include <time.h>
 # include <stdio.h>
 # include <errno.h>
@@ -30,13 +31,13 @@
 
 typedef struct				s_option
 {
-	int						empty;
-	int						emp_tr;
 	int						l;
 	int						r;
 	int						recursive;
 	int						a;
 	int						t;
+	int						attr;
+	int						acl;
 }							t_option;
 
 typedef struct				s_content
@@ -78,7 +79,7 @@ typedef struct 				s_biggest
 	long					blocks;
 }							t_biggest;
 
-t_cont						*content_dir(char *s, t_param *lst, t_option option);
+void						content_dir(char *s, t_param *lst, t_option option);
 void						collect_params(char *path, t_option option, t_param *lst);
 int							fill_list(t_cont **lst, t_cont *new, t_option option);
 int							detect_type(char *name, char *path, t_cont **new, t_option option);
@@ -90,14 +91,20 @@ int							treat_options(t_option *option, char **av);
 int							add(t_cont **lst, t_cont *new, t_option opt, long (*f)(void *a, void *b));
 void						put_attr(t_cont *list, t_biggest *bist, t_option option);
 void						file_type(unsigned long mode);
-void						file_perm_first(unsigned long mode);
-void						file_perm_second(unsigned long mode);
-void						file_links(long link, t_biggest *bist);
+void						file_perm_user(unsigned long mode);
+void						file_perm_group(unsigned long mode);
+void						file_perm_others(unsigned long mode);
+void						file_links(long link, t_biggest *bist, int xattr, int acl);
 void						file_user(long user, t_biggest *bist);
 void						file_group(long group, t_biggest *bist);
 void						file_size(long long size, t_biggest *bist);
 void						file_time(long mtime);
 void						file_devices(long rdev);
+int 						file_xattr(char *path);
+int							file_acl(char *path);
+int							put_xattr_value(char *list, char *path);
+void						put_xattr(char *path, int list_len);
+int							put_acl(char *path);
 t_biggest					*get_biggest(t_cont *list, t_option option, int flag_i_am_dir);
 t_biggest					*get_biggest_attr(t_cont *list, t_option option, t_biggest *bist, int flag_i_am_dir);
 void						free_param(t_param *lst, t_option option);

@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 17:02:53 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/29 14:28:48 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/04 18:07:49 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ int					illigal_option(char *s)
 	while (s[i])
 	{
 		if (s[i] != 'l' && s[i] != 'r' && s[i] != 'R' &&
-			s[i] != 'a' && s[i] != 't')
+			s[i] != 'a' && s[i] != 't' && s[i] != '@' && s[i] != 'e')
 		{
 			ch = s[i];
 			handle_err("ft_ls: illegal option -- ", 0);
 			handle_err(&ch, 0);
 			handle_err("\n", 0);
-			handle_err("usage: ft_ls [-Ralrt] [file ...]", 0);
+			handle_err("usage: ft_ls [-Ralrte] [file ...]", 0);
 			handle_err("\n", 0);
 			exit (2);
 		}
@@ -53,6 +53,10 @@ t_option			set_options(t_option option, char *s)
 			option.a = 1;
 		if (ft_strchr(s, 't'))
 			option.t = 1;
+		if (ft_strchr(s, '@'))
+			option.attr = 1;
+		if (ft_strchr(s, 'e'))
+			option.acl = 1;
 		i++;
 	}
 	return (option);
@@ -60,13 +64,13 @@ t_option			set_options(t_option option, char *s)
 
 t_option			init_option(t_option option)
 {
-	option.empty = 0;
-	option.emp_tr = 0;
 	option.l = 0;
 	option.r = 0;
 	option.recursive = 0;
 	option.a = 0;
 	option.t = 0;
+	option.attr = 0;
+	option.acl = 0;
 	return (option);
 }
 
@@ -92,10 +96,5 @@ int					treat_options(t_option *option, char **av)
 			*option = set_options(*option, av[i]);
 		i++;
 	}
-	if (option->l == 0 && option->r == 0 && option->recursive == 0 &&
-		option->a == 0 && option->t == 0)
-		option->empty = 1;
-	if (option->t == 0 && option->r == 0)
-		option->emp_tr = 1;
 	return (i);
 }
