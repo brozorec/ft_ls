@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   params.c                                           :+:      :+:    :+:   */
+/*   create_cont.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/29 17:02:53 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/04 16:14:23 by bbarakov         ###   ########.fr       */
+/*   Created: 2015/01/05 13:54:32 by bbarakov          #+#    #+#             */
+/*   Updated: 2015/01/05 14:39:09 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void
 	(*new)->size = buf->st_size;
 	(*new)->blocks = buf->st_blocks;
 	(*new)->mtime = buf->st_mtime;
+	(*new)->flag_is_param = 0;
 }
 
 t_cont
@@ -74,6 +75,35 @@ int
 }
 
 int
+	add(t_cont **list, t_cont *new, t_option o, long (*f)(void *a, void *b))
+{
+	t_cont				*head;
+
+	if (*list == 0)
+	{
+		*list = new;
+		return (1);
+	}
+	else if (new->flag_is_param == 0)
+	{
+		head = *list;
+		if (sort(*list, new, o, f) == 1)
+			*list = new;
+		else
+			*list = head;
+	}
+	else if (new->flag_is_param == 1)
+	{
+		head = *list;
+		if (sort_pm(*list, new, f) == 1)
+			*list = new;
+		else
+			*list = head;
+	}
+	return (1);
+}
+
+int
 	fill_list(t_cont **lst, t_cont *new, t_option option)
 {
 	if (option.t == 0 && option.r == 0)
@@ -85,24 +115,4 @@ int
 	else if (option.t == 0 && option.r == 1)
 		add(lst, new, option, &ft_strcmp_rev);
 	return (0);
-}
-
-void
-	collect_params(char *name, t_option option, t_param *lst)
-{
-	t_cont				*new;
-	int					i;
-
-	new = 0;
-	i = detect_type(name, name, &new, option);
-	if (i == 0)
-		add(&(lst->err), new, option, &ft_strcmp);
-	else if (i == 1)
-		fill_list(&(lst->file), new, option);
-	else if (i == 2)
-	{
-		fill_list(&(lst->dir), new, option);
-		lst->dir_num++;
-		lst->counter++;
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/14 17:27:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/04 19:21:40 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/05 15:56:09 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int			attr_perm_link_group_siz_dev_time(t_cont *list, t_biggest *bist)
 {
-	int 		xattr;
-	int 		acl;
+	int			xattr;
+	int			acl;
 
 	file_type(list->mode);
 	file_perm_user(list->mode);
@@ -48,7 +48,7 @@ void		put_symlink(char *link_path)
 
 void		put_attr(t_cont *list, t_biggest *bist, t_option option)
 {
-	int 		xattr;
+	int			xattr;
 
 	xattr = 0;
 	if (option.l == 1)

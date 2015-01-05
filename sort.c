@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 15:01:09 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/22 20:03:18 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/05 14:38:29 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,22 +107,23 @@ int
 }
 
 int
-	add(t_cont **list, t_cont *new, t_option o, long (*f)(void *a, void *b))
+	sort_pm(t_cont *list, t_cont *new, long (*f)(void *a, void *b))
 {
-	t_cont				*head;
+	t_cont				*tmp;
 
-	if (*list == 0)
+	tmp = 0;
+	while (list)
 	{
-		*list = new;
-		return (1);
+		if (f(list->name, new->name) >= 0)
+		{
+			if (case_greater(&list, &new, &tmp) == 1)
+				return (1);
+			return (0);
+		}
+		tmp = list;
+		list = list->next;
 	}
-	else
-	{
-		head = *list;
-		if (sort(*list, new, o, f) == 1)
-			*list = new;
-		else
-			*list = head;
-	}
-	return (1);
+	list = tmp;
+	list->next = new;
+	return (0);
 }

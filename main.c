@@ -6,11 +6,38 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/13 15:17:08 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/30 20:16:35 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/05 14:39:34 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+void
+	collect_params(char *name, t_option option, t_param *lst)
+{
+	t_cont				*new;
+	int					i;
+
+	new = 0;
+	i = detect_type(name, name, &new, option);
+	new->flag_is_param = 1;
+	if (i == 0)
+	{
+		add(&(lst->err), new, option, &ft_strcmp);
+		lst->err_counter++;
+	}
+	else if (i == 1)
+	{
+		fill_list(&(lst->file), new, option);
+		lst->file_counter++;
+	}
+	else if (i == 2)
+	{
+		fill_list(&(lst->dir), new, option);
+		lst->dir_num++;
+		lst->dir_counter++;
+	}
+}
 
 t_param
 	*cont_params_init(void)
@@ -24,7 +51,9 @@ t_param
 	new->dir = 0;
 	new->dir_name = 0;
 	new->dir_num = 0;
-	new->counter = 0;
+	new->dir_counter = 0;
+	new->err_counter = 0;
+	new->file_counter = 0;
 	new->flag = 0;
 	return (new);
 }

@@ -6,20 +6,20 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/04 16:15:49 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/04 19:21:55 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/05 15:47:20 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int		put_acl(char *path)
+int			put_acl(char *path)
 {
 	int				i;
 	acl_t			acl;
 	acl_entry_t		entry;
 	acl_tag_t		tag_type;
 	gid_t			*gid;
-	struct group	*new;
+	// struct group	*new;
 
 	if ((acl = acl_get_file(path, ACL_TYPE_EXTENDED)) == 0)
 	{
@@ -29,8 +29,8 @@ int		put_acl(char *path)
 	i = acl_get_entry(acl, ACL_FIRST_ENTRY, &entry);
 	i = acl_get_tag_type(entry, &tag_type);
 	gid = acl_get_qualifier(entry);
-	printf("%ld", *gid);
-	new = getgrgid(*gid);
+	// printf("%ld", *gid);
+	// new = getgrgid(*gid);
 	if (gid)
 		ft_putnbr(i);
 	ft_putstr("\n");
@@ -49,7 +49,7 @@ int		file_acl(char *path)
 	return (0);
 }
 
-int		put_xattr_value(char *list, char *path)
+int			put_xattr_value(char *list, char *path)
 {
 	int				val_len;
 	int 			i;
@@ -70,8 +70,8 @@ int		put_xattr_value(char *list, char *path)
 
 void		put_xattr(char *path, int list_len)
 {
-	int 			i;
-	int 			len;
+	int				i;
+	int				len;
 	char			*list;
 
 	len = list_len;
@@ -94,9 +94,9 @@ void		put_xattr(char *path, int list_len)
 	free(list);
 }
 
-int 		file_xattr(char *path)
+int			file_xattr(char *path)
 {
-	int 			list_len;
+	int				list_len;
 	char			*list;
 
 	list = 0;

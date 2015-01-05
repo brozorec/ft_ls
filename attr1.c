@@ -54,7 +54,6 @@ void		file_perm_user(unsigned long mode)
 		else
 			write(1, "-", 1);
 	}
-
 }
 
 void		file_perm_group(unsigned long mode)
