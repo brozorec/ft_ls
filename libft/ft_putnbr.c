@@ -12,10 +12,10 @@
 
 #include "libft.h"
 
-void	ft_putnbr(int n)
+void	ft_putnbr(long long n)
 {
-	int		copy;
-	int		div;
+	long long		copy;
+	long long		div;
 	char	a;
 
 	if (n < 0)

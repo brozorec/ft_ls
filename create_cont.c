@@ -55,7 +55,7 @@ int
 	i = lstat(path, &buf);
 	if (option.l == 0 && !S_ISLNK(buf.st_mode))
 		i = stat(path, &buf);
-	if (errno == 13)
+	if (errno && errno != 2)
 	{
 		if (name[0] != '.' || option.a != 0)
 			handle_err_eacces("ft_ls: ", ft_strrchr(path, '/') + 1);

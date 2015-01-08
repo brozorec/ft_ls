@@ -13,6 +13,7 @@
 #ifndef FT_LS_H
 # define FT_LS_H
 
+# define _FILE_OFFSET_BITS 64
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
@@ -22,7 +23,7 @@
 # include <grp.h>
 # include <sys/stat.h>
 # include <sys/xattr.h>
-# include <sys/acl.h>
+// # include <sys/acl.h>
 # include <time.h>
 # include <stdio.h>
 # include <errno.h>

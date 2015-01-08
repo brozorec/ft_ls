@@ -23,11 +23,17 @@ t_biggest
 	if (siz > bist->link_biggest)
 		bist->link_biggest = siz;
 	new_uid = getpwuid(list->uid);
-	siz = ft_strlen(new_uid->pw_name);
+	if (new_uid == 0 || new_uid->pw_name == 0)
+		siz = ft_getsize_nbr(list->uid);
+	else
+		siz = ft_strlen(new_uid->pw_name);
 	if (siz > bist->uid_biggest)
 		bist->uid_biggest = siz;
 	new_gid = getgrgid(list->gid);
-	siz = ft_strlen(new_gid->gr_name);
+	if (new_gid == 0 || new_gid->gr_name == 0)
+		siz = ft_getsize_nbr(list->gid);
+	else
+		siz = ft_strlen(new_gid->gr_name);
 	if (siz > bist->gid_biggest)
 		bist->gid_biggest = siz;
 	bist->flag_not_hidden = 1;
