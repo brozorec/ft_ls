@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/06 14:35:06 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/11/08 17:06:18 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/10 18:52:19 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_putnbr(long long n)
 {
 	long long		copy;
 	long long		div;
-	char	a;
+	char			a;
 
 	if (n < 0)
 	{
