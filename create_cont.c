@@ -6,11 +6,12 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/05 13:54:32 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/05 14:39:09 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/10 18:31:36 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include "ft_ls_prototypes.h"
 
 void
 	cont_init(t_cont **new, struct stat *buf)
@@ -23,7 +24,6 @@ void
 	(*new)->size = buf->st_size;
 	(*new)->blocks = buf->st_blocks;
 	(*new)->mtime = buf->st_mtime;
-	(*new)->flag_is_param = 0;
 }
 
 t_cont
@@ -53,22 +53,24 @@ int
 	int					i;
 
 	i = lstat(path, &buf);
-	if (option.l == 0 && !S_ISLNK(buf.st_mode))
+	if (S_ISLNK(buf.st_mode) && option.l == 0)
+	{
 		i = stat(path, &buf);
-	if (errno && errno != 2)
+		if (!S_ISDIR(buf.st_mode) || option.t)
+			i = lstat(path, &buf);
+	}
+	if (errno && errno != 2 && errno != 9 && errno != 62)
 	{
 		if (name[0] != '.' || option.a != 0)
 			handle_err_eacces("ft_ls: ", ft_strrchr(path, '/') + 1);
 		return (-1);
 	}
 	if (i == -1)
-	{
 		*new = create_new(name, *new, 0, option);
-		(*new)->path = ft_strdup(path);
+	else
+		*new = create_new(name, *new, &buf, option);
+	if (i == -1)
 		return (0);
-	}
-	*new = create_new(name, *new, &buf, option);
-	(*new)->path = ft_strdup(path);
 	if (S_ISDIR(buf.st_mode))
 		return (2);
 	return (1);
@@ -84,18 +86,10 @@ int
 		*list = new;
 		return (1);
 	}
-	else if (new->flag_is_param == 0)
+	else
 	{
 		head = *list;
 		if (sort(*list, new, o, f) == 1)
-			*list = new;
-		else
-			*list = head;
-	}
-	else if (new->flag_is_param == 1)
-	{
-		head = *list;
-		if (sort_pm(*list, new, f) == 1)
 			*list = new;
 		else
 			*list = head;

@@ -6,11 +6,12 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/13 15:30:11 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/05 15:44:22 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/10 18:28:20 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include "ft_ls_prototypes.h"
 
 int
 	collect_content_dir(char *name, char *path, t_cont **list, t_option option)
@@ -31,6 +32,7 @@ int
 		free(path_new);
 		return (-1);
 	}
+	new->path = ft_strdup(path_new);
 	fill_list(list, new, option);
 	free(path_new);
 	return (0);
@@ -55,7 +57,7 @@ int
 			free(lst->dir_name);
 			lst->dir_name = ft_strdup(list->name);
 			lst->flag = 0;
-			content_dir(list->path, lst, option);
+			content_dir(list->path, lst, list, option);
 		}
 		list = list->next;
 	}
@@ -78,7 +80,24 @@ void
 }
 
 void
-	content_dir(char *path, t_param *lst, t_option option)
+	error_opendir(char *path, t_param *lst, t_cont *dir, t_option option)
+{
+	if (S_ISDIR(dir->mode) && (option.a == 1 ||
+		(dir->name[0] != '.' && option.a == 0)))
+	{
+		print_dir_content(path, 0, lst, option);
+	}
+	if (errno != 14)
+	{
+		if (ft_strrchr(path, '/'))
+			handle_err_eacces("ft_ls: ", ft_strrchr(path, '/') + 1);
+		else
+			handle_err_eacces("ft_ls: ", path);
+	}
+}
+
+void
+	content_dir(char *path, t_param *lst, t_cont *dir, t_option option)
 {
 	DIR					*dirp;
 	t_cont				*list;
@@ -97,8 +116,5 @@ void
 		free_cont(list, option);
 	}
 	else
-	{
-		if (errno != 14)
-			handle_err_eacces("ft_ls: ", ft_strrchr(path, '/') + 1);
-	}
+		error_opendir(path, lst, dir, option);
 }

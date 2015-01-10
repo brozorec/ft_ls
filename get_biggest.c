@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include "ft_ls_prototypes.h"
 
 t_biggest
 	*get_biggest_uid_gid_link(t_cont *list, t_biggest *bist)

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include "ft_ls_prototypes.h"
 
 void		file_type(unsigned long mode)
 {

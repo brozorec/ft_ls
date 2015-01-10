@@ -6,11 +6,12 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/14 17:27:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/05 15:56:09 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/08 12:27:13 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include "ft_ls_prototypes.h"
 
 int			attr_perm_link_group_siz_dev_time(t_cont *list, t_biggest *bist)
 {
@@ -64,6 +65,4 @@ void		put_attr(t_cont *list, t_biggest *bist, t_option option)
 	ft_putstr("\n");
 	if (xattr > 0 && option.attr == 1 && option.l == 1)
 		put_xattr(list->path, xattr);
-	// if (option.acl == 1 && option.l == 1)
-		// put_acl(list->path);
 }

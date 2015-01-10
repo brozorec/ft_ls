@@ -6,11 +6,12 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 17:02:53 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/04 18:07:49 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/08 16:18:43 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include "ft_ls_prototypes.h"
 
 int					illigal_option(char *s)
 {
@@ -21,13 +22,14 @@ int					illigal_option(char *s)
 	while (s[i])
 	{
 		if (s[i] != 'l' && s[i] != 'r' && s[i] != 'R' &&
-			s[i] != 'a' && s[i] != 't' && s[i] != '@' && s[i] != 'e')
+			s[i] != 'a' && s[i] != 't' && s[i] != '@' &&
+			s[i] != 'e' && s[i] != '1')
 		{
 			ch = s[i];
 			handle_err("ft_ls: illegal option -- ", 0);
-			handle_err(&ch, 0);
+			write(2, &ch, 1);
 			handle_err("\n", 0);
-			handle_err("usage: ft_ls [-Ralrte] [file ...]", 0);
+			handle_err("usage: ft_ls [-Raelrt] [file ...]", 0);
 			handle_err("\n", 0);
 			exit (2);
 		}
@@ -83,10 +85,7 @@ int					treat_options(t_option *option, char **av)
 	while (av[i] && av[i][0] == '-')
 	{
 		if (ft_strlen(av[i]) == 1)
-		{
-			i--;
 			break ;
-		}
 		if (ft_strlen(av[i]) == 2 && av[i][1] == '-')
 		{
 			i++;

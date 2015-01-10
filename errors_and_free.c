@@ -6,13 +6,15 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/10 19:16:23 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/03 20:09:36 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/09 12:54:05 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include "ft_ls_prototypes.h"
 
-void		handle_err_eacces(char *s1, char *s2)
+void
+	handle_err_eacces(char *s1, char *s2)
 {
 	if (errno == 13)
 	{
@@ -23,7 +25,8 @@ void		handle_err_eacces(char *s1, char *s2)
 	}
 }
 
-void		handle_err(char *s1, char *s2)
+void
+	handle_err(char *s1, char *s2)
 {
 	if (s1)
 		write(2, s1, ft_strlen(s1));

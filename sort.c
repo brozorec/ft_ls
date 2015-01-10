@@ -6,11 +6,12 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 15:01:09 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/05 14:38:29 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/10 17:02:56 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include "ft_ls_prototypes.h"
 
 int
 	case_greater(t_cont **list, t_cont **new, t_cont **tmp)
@@ -27,11 +28,11 @@ int
 }
 
 int
-	alpha_rev(t_cont **list, t_cont **new, t_cont **tmp)
+	t(t_cont **list, t_cont **new, t_cont **tmp, long (*f)(void *a, void *b))
 {
 	while (*list && (*list)->val == (*new)->val)
 	{
-		if (ft_strcmp_rev((*list)->name, (*new)->name) >= 0)
+		if (f((*list)->name, (*new)->name) >= 0)
 		{
 			if (case_greater(list, new, tmp) == 1)
 				return (1);
@@ -50,17 +51,17 @@ int
 }
 
 int
-	alpha(t_cont **list, t_cont **new, t_cont **tmp, t_option option)
+	no_t(t_cont **list, t_cont **new, t_cont **tmp, long (*f)(void *a, void *b))
 {
-	while (*list && (*list)->val == (*new)->val && option.r == 0)
+	while (*list && ft_strcmp((*list)->val, (*new)->val) == 0)
 	{
-		if (ft_strcmp((*list)->name, (*new)->name) >= 0)
+		if (f((void *)(*list)->mtime, (void *)(*new)->mtime) >= 0)
 		{
 			if (case_greater(list, new, tmp) == 1)
 				return (1);
 			return (0);
 		}
-		if ((*list)->next == 0 || (*list)->next->val != (*new)->val)
+		if ((*list)->next == 0 || ft_strcmp((*list)->next->val, (*new)->val))
 		{
 			(*new)->next = (*list)->next;
 			(*list)->next = *new;
@@ -69,9 +70,33 @@ int
 		*tmp = *list;
 		*list = (*list)->next;
 	}
-	if (option.r == 1)
+	return (0);
+}
+
+int
+	new_sort(t_cont **list, t_cont **new, t_cont **tmp, t_option option)
+{
+	if (option.t == 0 && option.r == 0)
 	{
-		if (alpha_rev(list, new, tmp) == 1)
+		if (no_t(list, new, tmp, &ft_numcmp_rev) == 1)
+			return (1);
+		return (0);
+	}
+	if (option.t == 0 && option.r == 1)
+	{
+		if (no_t(list, new, tmp, &ft_numcmp) == 1)
+			return (1);
+		return (0);
+	}
+	if (option.t == 1 && option.r == 0)
+	{
+		if (t(list, new, tmp, &ft_strcmp) == 1)
+			return (1);
+		return (0);
+	}
+	if (option.t == 1 && option.r == 1)
+	{
+		if (t(list, new, tmp, &ft_strcmp_rev) == 1)
 			return (1);
 		return (0);
 	}
@@ -88,33 +113,11 @@ int
 	{
 		if (f(list->val, new->val) == 0)
 		{
-			if (alpha(&list, &new, &tmp, o) == 1)
+			if (new_sort(&list, &new, &tmp, o) == 1)
 				return (1);
 			return (0);
 		}
 		else if (f(list->val, new->val) > 0)
-		{
-			if (case_greater(&list, &new, &tmp) == 1)
-				return (1);
-			return (0);
-		}
-		tmp = list;
-		list = list->next;
-	}
-	list = tmp;
-	list->next = new;
-	return (0);
-}
-
-int
-	sort_pm(t_cont *list, t_cont *new, long (*f)(void *a, void *b))
-{
-	t_cont				*tmp;
-
-	tmp = 0;
-	while (list)
-	{
-		if (f(list->name, new->name) >= 0)
 		{
 			if (case_greater(&list, &new, &tmp) == 1)
 				return (1);

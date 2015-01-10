@@ -6,11 +6,12 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/12 15:48:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/05 15:41:19 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/10 14:26:29 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include "ft_ls_prototypes.h"
 
 void
 	put_dir_name(char *s)
@@ -23,7 +24,7 @@ t_biggest
 	*print_blocks_get_biggest(t_cont *list, t_biggest *bist, t_option option)
 {
 	bist = get_biggest(list, option, 1);
-	if (bist->flag_not_hidden == 1)
+	if (errno == 0 && bist->flag_not_hidden == 1)
 	{
 		ft_putstr("total ");
 		ft_putnbr(bist->blocks);
@@ -95,7 +96,7 @@ void
 	{
 		lst->dir_name = ft_strdup(lst->dir->name);
 		lst->flag = 1;
-		content_dir(lst->dir->name, lst, option);
+		content_dir(lst->dir->name, lst, lst->dir, option);
 		lst->dir = (lst->dir)->next;
 		free(lst->dir_name);
 	}

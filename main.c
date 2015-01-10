@@ -6,11 +6,12 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/13 15:17:08 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/05 14:39:34 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/10 18:41:54 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include "ft_ls_prototypes.h"
 
 void
 	collect_params(char *name, t_option option, t_param *lst)
@@ -20,7 +21,7 @@ void
 
 	new = 0;
 	i = detect_type(name, name, &new, option);
-	new->flag_is_param = 1;
+	new->path = ft_strdup(name);
 	if (i == 0)
 	{
 		add(&(lst->err), new, option, &ft_strcmp);
@@ -67,7 +68,7 @@ int
 
 	i = treat_options(&option, av);
 	lst = cont_params_init();
-	if (ac == 1 || (ac == 2 && i == 2))
+	if (ac == 1 || (ac == i))
 		collect_params(".", option, lst);
 	while (i != ac)
 	{
