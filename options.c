@@ -6,14 +6,14 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 17:02:53 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/08 16:18:43 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/19 17:54:46 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include "ft_ls_prototypes.h"
 
-int					illigal_option(char *s)
+int					illegal_option(char *s, t_option *option)
 {
 	int		i;
 	char	ch;
@@ -22,16 +22,16 @@ int					illigal_option(char *s)
 	while (s[i])
 	{
 		if (s[i] != 'l' && s[i] != 'r' && s[i] != 'R' &&
-			s[i] != 'a' && s[i] != 't' && s[i] != '@' &&
-			s[i] != 'e' && s[i] != '1')
+			s[i] != 'a' && s[i] != 't' && s[i] != '@' && s[i] != '1' &&
+			s[i] != 'o' && s[i] != 'g')
 		{
 			ch = s[i];
-			handle_err("ft_ls: illegal option -- ", 0);
+			handle_err("ft_ls: illegal option -- ", 0, option);
 			write(2, &ch, 1);
-			handle_err("\n", 0);
-			handle_err("usage: ft_ls [-Raelrt] [file ...]", 0);
-			handle_err("\n", 0);
-			exit (2);
+			handle_err("\n", 0, option);
+			handle_err("usage: ft_ls [-Raglort] [file ...]", 0, option);
+			handle_err("\n", 0, option);
+			exit (1);
 		}
 		i++;
 	}
@@ -57,8 +57,10 @@ t_option			set_options(t_option option, char *s)
 			option.t = 1;
 		if (ft_strchr(s, '@'))
 			option.attr = 1;
-		if (ft_strchr(s, 'e'))
-			option.acl = 1;
+		if (ft_strchr(s, 'o'))
+			option.o = 1;
+		if (ft_strchr(s, 'g'))
+			option.g = 1;
 		i++;
 	}
 	return (option);
@@ -72,7 +74,9 @@ t_option			init_option(t_option option)
 	option.a = 0;
 	option.t = 0;
 	option.attr = 0;
-	option.acl = 0;
+	option.o = 0;
+	option.g = 0;
+	option.my_errno = 0;
 	return (option);
 }
 
@@ -91,7 +95,7 @@ int					treat_options(t_option *option, char **av)
 			i++;
 			break ;
 		}
-		if (illigal_option(av[i]) == 0)
+		if (illegal_option(av[i], option) == 0)
 			*option = set_options(*option, av[i]);
 		i++;
 	}

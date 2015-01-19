@@ -6,7 +6,7 @@
 #    By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/12/30 18:09:49 by bbarakov          #+#    #+#              #
-#    Updated: 2015/01/10 18:54:54 by bbarakov         ###   ########.fr        #
+#    Updated: 2015/01/12 12:44:28 by bbarakov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,4 +31,4 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 
-re: fclean clean
+re: fclean all

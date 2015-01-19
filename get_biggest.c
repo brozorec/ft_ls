@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/14 17:27:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/05 15:56:59 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/12 13:31:21 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,12 @@ t_biggest
 }
 
 t_biggest
-	*bist_init(void)
+	*bist_init(t_option *option)
 {
 	t_biggest		*bist;
 
-	bist = (t_biggest *)malloc(sizeof(*bist));
+	if ((bist = (t_biggest *)malloc(sizeof(*bist))) == 0)
+		handle_err_eacces("ft_ls: ", "malloc", option);
 	bist->link_biggest = 0;
 	bist->size_biggest = 0;
 	bist->uid_biggest = 0;
@@ -89,14 +90,14 @@ t_biggest
 }
 
 t_biggest
-	*get_biggest(t_cont *list, t_option option, int flag_i_am_dir)
+	*get_biggest(t_cont *list, t_option *option, int flag_i_am_dir)
 {
 	t_biggest		*bist;
 
 	if (list == 0)
 		return (0);
 	bist = 0;
-	bist = bist_init();
-	bist = get_biggest_attr(list, option, bist, flag_i_am_dir);
+	bist = bist_init(option);
+	bist = get_biggest_attr(list, *option, bist, flag_i_am_dir);
 	return (bist);
 }

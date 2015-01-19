@@ -30,7 +30,7 @@ t_cont
 	*create_new(char *name, t_cont *new, struct stat *buf, t_option option)
 {
 	if ((new = (t_cont *)malloc(sizeof(t_cont))) == 0)
-		handle_err("ft_ls: ", "malloc");
+		handle_err_eacces("ft_ls: ", "malloc", &option);
 	if (buf != 0)
 		cont_init(&new, buf);
 	new->name = ft_strdup(name);
@@ -38,7 +38,7 @@ t_cont
 	if (option.t == 0 || buf == 0)
 	{
 		if ((new->val = (char *)malloc(ft_strlen(name) + 1)) == 0)
-			handle_err_eacces("ft_ls: ", "malloc");
+			handle_err_eacces("ft_ls: ", "malloc", &option);
 		ft_memcpy(new->val, name, ft_strlen(name) + 1);
 	}
 	else
@@ -47,28 +47,28 @@ t_cont
 }
 
 int
-	detect_type(char *name, char *path, t_cont **new, t_option option)
+	detect_type(char *name, char *path, t_cont **new, t_option *option)
 {
 	struct stat			buf;
 	int					i;
 
 	i = lstat(path, &buf);
-	if (S_ISLNK(buf.st_mode) && option.l == 0)
+	if (S_ISLNK(buf.st_mode) && option->l == 0)
 	{
 		i = stat(path, &buf);
-		if (!S_ISDIR(buf.st_mode) || option.t)
+		if (!S_ISDIR(buf.st_mode) || option->t)
 			i = lstat(path, &buf);
 	}
 	if (errno && errno != 2 && errno != 9 && errno != 62)
 	{
-		if (name[0] != '.' || option.a != 0)
-			handle_err_eacces("ft_ls: ", ft_strrchr(path, '/') + 1);
+		if (name[0] != '.' || option->a != 0)
+			handle_err_eacces("ft_ls: ", ft_strrchr(path, '/') + 1, option);
 		return (-1);
 	}
 	if (i == -1)
-		*new = create_new(name, *new, 0, option);
+		*new = create_new(name, *new, 0, *option);
 	else
-		*new = create_new(name, *new, &buf, option);
+		*new = create_new(name, *new, &buf, *option);
 	if (i == -1)
 		return (0);
 	if (S_ISDIR(buf.st_mode))

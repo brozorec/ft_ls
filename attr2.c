@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 16:14:02 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/30 17:44:16 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/19 17:12:52 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ void		file_group(long group, t_biggest *bist)
 	{
 		ft_putnbr(group);
 		siz = ft_getsize_nbr(group);
-		i = bist->gid_biggest - siz;
+		i = bist->gid_biggest - siz + 2;
 	}
 	else
 	{
 		ft_putstr(new_gid->gr_name);
 		siz = ft_strlen(new_gid->gr_name);
-		i = bist->gid_biggest - siz;
+		i = bist->gid_biggest - siz + 2;
 	}
 	while (i > 0)
 	{
@@ -75,7 +75,7 @@ void		file_size(long long size, t_biggest *bist)
 	int			i;
 
 	siz = ft_getsize_nbr(size);
-	i = bist->size_biggest - siz + 2;
+	i = bist->size_biggest - siz;
 	while (i > 0)
 	{
 		ft_putchar(' ');

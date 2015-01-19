@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/10 19:16:23 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/09 12:54:05 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/10 19:51:04 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 #include "ft_ls_prototypes.h"
 
 void
-	handle_err_eacces(char *s1, char *s2)
+	handle_err_eacces(char *s1, char *s2, t_option *option)
 {
+	(option->my_errno)++;
 	if (errno == 13)
 	{
 		if (s1)
@@ -26,8 +27,9 @@ void
 }
 
 void
-	handle_err(char *s1, char *s2)
+	handle_err(char *s1, char *s2, t_option *option)
 {
+	(option->my_errno)++;
 	if (s1)
 		write(2, s1, ft_strlen(s1));
 	if (s2 != 0)

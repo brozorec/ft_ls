@@ -6,14 +6,15 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/14 17:27:25 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/08 12:27:13 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/19 17:56:31 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include "ft_ls_prototypes.h"
 
-int			attr_perm_link_group_siz_dev_time(t_cont *list, t_biggest *bist)
+int
+	perm_link_group_siz_dev_time(t_cont *list, t_biggest *bist, t_option *o)
 {
 	int			xattr;
 	int			acl;
@@ -25,8 +26,10 @@ int			attr_perm_link_group_siz_dev_time(t_cont *list, t_biggest *bist)
 	xattr = file_xattr(list->path);
 	acl = file_acl(list->path);
 	file_links(list->nlink, bist, xattr, acl);
-	file_user(list->uid, bist);
-	file_group(list->gid, bist);
+	if (o->g == 0)
+		file_user(list->uid, bist);
+	if (o->o == 0)
+		file_group(list->gid, bist);
 	if (S_ISCHR(list->mode) || S_ISBLK(list->mode))
 		file_devices(list->rdev);
 	else
@@ -35,7 +38,8 @@ int			attr_perm_link_group_siz_dev_time(t_cont *list, t_biggest *bist)
 	return (xattr);
 }
 
-void		put_symlink(char *link_path)
+void
+	put_symlink(char *link_path, t_option *option)
 {
 	ssize_t		num_bytes;
 	char		buf[4096];
@@ -43,26 +47,28 @@ void		put_symlink(char *link_path)
 	num_bytes = readlink(link_path, buf, 4095);
 	buf[num_bytes] = '\0';
 	if (num_bytes == -1)
-		handle_err("ft_ls: ", link_path);
+		handle_err("ft_ls: ", link_path, option);
 	ft_putstr(buf);
 }
 
-void		put_attr(t_cont *list, t_biggest *bist, t_option option)
+void
+	put_attr(t_cont *list, t_param *lst, t_biggest *bist, t_option *o)
 {
 	int			xattr;
 
 	xattr = 0;
-	if (option.l == 1)
+	if (o->l == 1 || o->g == 1 || o->o == 1)
 	{
-		xattr = attr_perm_link_group_siz_dev_time(list, bist);
+		xattr = perm_link_group_siz_dev_time(list, bist, o);
 	}
 	ft_putstr(list->name);
-	if (option.l == 1 && S_ISLNK(list->mode))
+	lst->flag_print = 1;
+	if (o->l == 1 && S_ISLNK(list->mode))
 	{
 		ft_putstr(" -> ");
-		put_symlink(list->path);
+		put_symlink(list->path, o);
 	}
 	ft_putstr("\n");
-	if (xattr > 0 && option.attr == 1 && option.l == 1)
-		put_xattr(list->path, xattr);
+	if (xattr > 0 && o->attr == 1 && o->l == 1)
+		put_xattr(list->path, xattr, o);
 }

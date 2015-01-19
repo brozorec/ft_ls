@@ -37,7 +37,9 @@ typedef struct				s_option
 	int						a;
 	int						t;
 	int						attr;
-	int						acl;
+	int						o;
+	int						g;
+	int						my_errno;
 }							t_option;
 
 typedef struct				s_content
@@ -65,7 +67,7 @@ typedef struct				s_param
 	int						file_counter;
 	int						dir_counter;
 	char					*dir_name;
-	int						dir_num;
+	int						flag_print;
 	int						flag;
 }							t_param;
 

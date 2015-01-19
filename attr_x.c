@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/04 16:15:49 by bbarakov          #+#    #+#             */
-/*   Updated: 2015/01/10 17:43:30 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/13 12:12:33 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int					put_xattr_value(char *list, char *path)
 	value = 0;
 	if ((val_len = getxattr(path, list, value, 0, 0, XATTR_NOFOLLOW)) == -1)
 		return (-1);
-	i = 10 - ft_getsize_nbr(val_len);
+	i = 7 - ft_getsize_nbr(val_len);
 	while (i > 0)
 	{
 		ft_putstr(" ");
@@ -44,7 +44,7 @@ int					put_xattr_value(char *list, char *path)
 	return (val_len);
 }
 
-void				put_xattr(char *path, int list_len)
+void				put_xattr(char *path, int list_len, t_option *option)
 {
 	int				i;
 	int				len;
@@ -53,7 +53,7 @@ void				put_xattr(char *path, int list_len)
 	len = list_len;
 	list = 0;
 	if ((list = (char *)malloc(list_len + 1)) == 0)
-		handle_err_eacces("ft_ls: ", "malloc");
+		handle_err_eacces("ft_ls: ", "malloc", option);
 	listxattr(path, list, list_len, XATTR_NOFOLLOW);
 	while (list_len > 0)
 	{

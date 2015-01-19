@@ -6,7 +6,7 @@
 /*   By: bbarakov <bbarakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 11:53:15 by bbarakov          #+#    #+#             */
-/*   Updated: 2014/12/30 14:47:00 by bbarakov         ###   ########.fr       */
+/*   Updated: 2015/01/19 16:46:31 by bbarakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void		file_time(long mtime)
 	tab = ft_strsplit(ctime(&mtime), ' ');
 	tab_h = ft_strsplit(tab[3], ':');
 	put_month_day(tab[1], tab[2]);
-	if (now - 15778463 > mtime || mtime > now)
+	if (now - 15724763 > mtime || mtime > now)
 	{
 		ft_putstr(" ");
 		tab[4][4] = '\0';
