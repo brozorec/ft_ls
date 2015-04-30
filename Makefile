@@ -10,25 +10,49 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = ft_ls
+CC=			gcc
 
-SRC = attr.c attr1.c attr2.c attr_time.c attr_x.c dirs.c errors_and_free.c \
-get_biggest.c main.c options.c create_cont.c print.c sort.c
+FLAGS=		-Wall -Werror -Wextra
 
-INCLUDES = .
+NAME = 		ft_ls
 
-all: $(NAME)
+SRC =	 	source/dirs.c \
+			source/errors_and_free.c \
+			source/get_biggest.c \
+			source/main.c \
+			source/options.c \
+			source/create_cont.c \
+			source/print.c \
+			source/sort.c \
+			source/attributes/attr.c \
+			source/attributes/attr1.c \
+			source/attributes/attr2.c \
+			source/attributes/attr_time.c \
+			source/attributes/attr_x.c \
+
+OBJ=		$(SRC:.c=.o)
+
+INCLUDES = 	includes
+
+all: $(NAME) lib
 
 lib:
 	@make re -C ./libft
-	@make clean -C ./libft
 
-$(NAME): lib
-	@gcc -Wall -Werror -Wextra $(SRC) -I $(INCLUDES) -L ./libft -lft -o $(NAME)
+$(NAME): $(OBJ)
+	@$(CC) $(FLAGS) $^ -I $(INCLUDES) -L ./libft -lft -o $@
+
+%.o: %.c
+	@$(CC) $(FLAGS) -c $^ -I $(INCLUDES) -o $@
+
+.PHONY: clean fclean
 
 clean:
-	@make fclean -C ./libft
+	@rm -rf $(OBJ)
+	@make clean -C ./libft
+
 fclean: clean
 	@rm -f $(NAME)
+	@make fclean -C ./libft
 
 re: fclean all
